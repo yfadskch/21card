@@ -11,6 +11,7 @@ h1 {
     color: gold;
 }
 
+/* 游戏框架 */
 #gameBoard {
     margin: 20px auto;
     width: 350px;
@@ -34,30 +35,16 @@ h1 {
     font-weight: bold;
 }
 
+/* 框架外功能区 */
 #statusContainer {
-    margin: 10px 0;
+    margin: 20px auto;
     font-size: 18px;
     font-weight: bold;
     color: gold;
 }
 
-button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
 #chipContainer {
-    margin: 10px 0;
+    margin: 10px auto;
 }
 
 .chip {
@@ -78,8 +65,21 @@ button:hover {
     background-color: #cba034;
 }
 
-#highlight {
-    color: gold;
-    font-weight: bold;
-    font-size: 18px;
+#actionButtons {
+    margin: 10px auto;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049;
 }

@@ -43,18 +43,9 @@ function displayHand(hand, containerId) {
     });
 }
 
-function setPlayerName() {
-    const nameInput = document.getElementById('playerName').value;
-    playerName = nameInput || 'Player';
-    document.getElementById('playerLabel').textContent = `${playerName}'s Hand`;
-    document.getElementById('playerNameContainer').style.display = 'none';
-    document.getElementById('gameBoard').style.display = 'block';
-    startGame();
-}
-
 function selectChip(amount) {
     currentBet = amount;
-    document.getElementById('highlight').textContent = `Selected Bet: ${amount}`;
+    document.getElementById('highlight').textContent = `Current Bet: ${amount}`;
 }
 
 function hit() {
@@ -62,20 +53,14 @@ function hit() {
         alert("Please select a chip to place your bet!");
         return;
     }
-    if (credit >= currentBet) {
-        credit -= currentBet;
-        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
-    } else {
-        alert("Not enough credit to place the bet!");
-        return;
-    }
 
     playerHand.push(deck.pop());
     displayHand(playerHand, 'playerCards');
     document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
+
     if (calculateScore(playerHand) > 21) {
         alert('You busted! Dealer wins.');
-        resetGame();
+        endRound(false);
     }
 }
 
@@ -84,25 +69,40 @@ function stand() {
         dealerHand.push(deck.pop());
     }
     displayHand(dealerHand, 'dealerCards');
+
     let playerScore = calculateScore(playerHand);
     let dealerScore = calculateScore(dealerHand);
 
     if (dealerScore > 21 || playerScore > dealerScore) {
-        points += currentBet;
         alert(`${playerName} wins!`);
+        endRound(true);
     } else if (playerScore < dealerScore) {
         alert('Dealer wins.');
+        endRound(false);
     } else {
         alert('It\'s a tie!');
+        endRound(true);
     }
+}
+
+function endRound(isWin) {
+    if (isWin) {
+        credit += currentBet;
+    } else {
+        credit -= currentBet;
+    }
+    points += currentBet / 2;
+
+    document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+    document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+    document.getElementById('highlight').textContent = `Current Bet: 0`;
+    currentBet = 0;
+
     resetGame();
 }
 
 function resetGame() {
-    currentBet = 0;
-    document.getElementById('highlight').textContent = '';
-    document.getElementById('pointDisplay').textContent = `Point: ${points}`;
-    startGame();
+    setTimeout(startGame, 1000);
 }
 
 function startGame() {
