@@ -33,7 +33,6 @@ function startGame() {
     displayHand(playerHand, 'playerCards');
     displayHand(dealerHand.slice(0, 1), 'dealerCards');
     document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
-    document.getElementById('dealerScore').textContent = `Score: ?`;
 }
 
 function displayHand(hand, containerId) {
@@ -50,6 +49,7 @@ function displayHand(hand, containerId) {
 function selectChip(amount) {
     currentBet = amount;
     document.getElementById('highlight').textContent = `Selected Bet: ${amount}`;
+    document.getElementById('betDisplay').textContent = `Bet: ${amount}`; // 更新 Bet 显示
 }
 
 function hit() {
@@ -114,6 +114,5 @@ function endRound(isWin) {
 
     document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
     document.getElementById('pointDisplay').textContent = `Point: ${points}`;
-    document.getElementById('highlight').textContent = `Selected Bet: ${currentBet}`;
-    startGame(); // 开始新一轮游戏
+    startGame();
 }
