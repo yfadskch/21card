@@ -8,28 +8,40 @@
 </head>
 <body>
     <h1>21 Point Game</h1>
-    <div id="playerNameContainer">
-        <label for="playerName">Enter your name:</label>
-        <input type="text" id="playerName" placeholder="Player Name">
-        <button onclick="setPlayerName()">Start Game</button>
+    <div id="gameInfo">
+        <p>Credit: <span id="credit">500</span></p>
+        <p>Total Points: <span id="totalPoints">0</span></p>
     </div>
-    <div id="gameBoard" style="display:none;">
-        <div id="playerHand">
-            <h3 id="playerLabel">Your Hand</h3>
-            <div id="playerCards"></div>
-            <p id="playerScore">Score: 0</p>
-            <progress id="playerProgress" max="21" value="0"></progress>
-        </div>
+
+    <!-- 筹码区域 -->
+    <div id="chipContainer">
+        <button class="chip" onclick="placeBet(50)">50</button>
+        <button class="chip" onclick="placeBet(100)">100</button>
+        <button class="chip" onclick="placeBet(200)">200</button>
+    </div>
+
+    <!-- 游戏主界面 -->
+    <div id="gameBoard">
+        <!-- 庄家（Dealer）区域 -->
         <div id="dealerHand">
             <h3>Dealer's Hand</h3>
             <div id="dealerCards"></div>
             <p id="dealerScore">Score: 0</p>
-            <progress id="dealerProgress" max="21" value="0"></progress>
         </div>
+
+        <!-- 玩家（Player）区域 -->
+        <div id="playerHand">
+            <h3>Your Hand</h3>
+            <div id="playerCards"></div>
+            <p id="playerScore">Score: 0</p>
+        </div>
+
+        <!-- 控制按钮 -->
         <button id="hitBtn" onclick="hit()">Hit</button>
         <button id="standBtn" onclick="stand()">Stand</button>
+        <button id="restartBtn" onclick="restartGame()" style="display: none;">Restart</button>
     </div>
-    <p id="highlight"></p>
+
     <script src="script.js"></script>
 </body>
 </html>
