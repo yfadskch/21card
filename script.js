@@ -53,17 +53,23 @@ function setPlayerName() {
 }
 
 function selectChip(amount) {
-    if (credit >= amount) {
-        currentBet = amount;
-        credit -= amount;
-        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
-        alert(`${playerName} bet ${amount}!`);
-    } else {
-        alert("Not enough credit!");
-    }
+    currentBet = amount;
+    document.getElementById('highlight').textContent = `Selected Bet: ${amount}`;
 }
 
 function hit() {
+    if (currentBet === 0) {
+        alert("Please select a chip to place your bet!");
+        return;
+    }
+    if (credit >= currentBet) {
+        credit -= currentBet;
+        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+    } else {
+        alert("Not enough credit to place the bet!");
+        return;
+    }
+
     playerHand.push(deck.pop());
     displayHand(playerHand, 'playerCards');
     document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
@@ -94,6 +100,7 @@ function stand() {
 
 function resetGame() {
     currentBet = 0;
+    document.getElementById('highlight').textContent = '';
     document.getElementById('pointDisplay').textContent = `Point: ${points}`;
     startGame();
 }
