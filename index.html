@@ -1,85 +1,46 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-    background-color: #282c34;
-    color: white;
-}
-
-h1 {
-    color: gold;
-}
-
-#gameBoard {
-    margin: 20px auto;
-    width: 350px;
-    border: 2px solid white;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-}
-
-.card {
-    display: inline-block;
-    width: 60px;
-    height: 80px;
-    border: 1px solid white;
-    margin: 5px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    line-height: 80px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-#statusContainer {
-    margin: 10px 0;
-    font-size: 18px;
-    font-weight: bold;
-    color: gold;
-}
-
-button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-#chipContainer {
-    margin: 10px 0;
-}
-
-.chip {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    font-size: 16px;
-    line-height: 60px;
-    margin: 5px;
-    background-color: #d4af37;
-    color: black;
-    border: 2px solid #fff;
-    cursor: pointer;
-    display: inline-block;
-}
-
-.chip:hover {
-    background-color: #cba034;
-}
-
-#highlight {
-    color: gold;
-    font-weight: bold;
-    font-size: 18px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21 Point Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>21 Point Game</h1>
+    <div id="playerNameContainer">
+        <label for="playerName">Enter your name:</label>
+        <input type="text" id="playerName" placeholder="Player Name">
+        <button onclick="setPlayerName()">Start Game</button>
+    </div>
+    <div id="gameBoard" style="display:none;">
+        <div id="dealerHand">
+            <h3>Dealer's Hand</h3>
+            <div id="dealerCards"></div>
+            <p id="dealerScore">Score: ?</p>
+            <progress id="dealerProgress" max="21" value="0"></progress>
+        </div>
+        <div id="playerHand">
+            <h3 id="playerLabel">Your Hand</h3>
+            <div id="playerCards"></div>
+            <p id="playerScore">Score: 0</p>
+            <progress id="playerProgress" max="21" value="0"></progress>
+        </div>
+        <!-- Credit and Point Section -->
+        <div id="statusContainer">
+            <p id="creditDisplay">Credit: 500</p>
+            <p id="pointDisplay">Point: 0</p>
+        </div>
+        <button id="hitBtn" onclick="hit()">Hit</button>
+        <button id="standBtn" onclick="stand()">Stand</button>
+        <!-- Chip Container -->
+        <div id="chipContainer">
+            <button class="chip" onclick="selectChip(50)">50</button>
+            <button class="chip" onclick="selectChip(100)">100</button>
+            <button class="chip" onclick="selectChip(200)">200</button>
+        </div>
+    </div>
+    <p id="highlight"></p>
+    <script src="script.js"></script>
+</body>
+</html>
