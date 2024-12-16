@@ -1,17 +1,6 @@
 let deck, playerHand, dealerHand, playerName = 'Player', currentBet = 0;
 let credit = 500, points = 0;
-
-function createDeck() {
-    const suits = ['♠', '♥', '♣', '♦'];
-    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-    const deck = [];
-    for (const suit of suits) {
-        for (const value of values) {
-            deck.push({ suit, value });
-        }
-    }
-    return deck.sort(() => Math.random() - 0.5);
-}
+let gameRecords = [];
 
 function setPlayerName() {
     const nameInput = document.getElementById('playerName').value.trim();
@@ -23,6 +12,7 @@ function setPlayerName() {
     document.getElementById('statusContainer').style.display = 'block';
     document.getElementById('chipContainer').style.display = 'block';
     document.getElementById('actionButtons').style.display = 'block';
+    document.getElementById('extraFeatures').style.display = 'block';
     startGame();
 }
 
@@ -32,7 +22,6 @@ function startGame() {
     dealerHand = [deck.pop(), deck.pop()];
     displayHand(playerHand, 'playerCards');
     displayHand(dealerHand.slice(0, 1), 'dealerCards');
-    document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
 }
 
 function displayHand(hand, containerId) {
@@ -48,71 +37,54 @@ function displayHand(hand, containerId) {
 
 function selectChip(amount) {
     currentBet = amount;
-    document.getElementById('highlight').textContent = `Selected Bet: ${amount}`;
-    document.getElementById('betDisplay').textContent = `Bet: ${amount}`; // 更新 Bet 显示
+    document.getElementById('betDisplay').textContent = `Bet: ${amount}`;
+}
+
+function reward() {
+    alert("You have claimed your reward!");
 }
 
 function hit() {
-    if (currentBet === 0) {
-        alert("Please select a chip to place your bet!");
-        return;
-    }
-
     playerHand.push(deck.pop());
     displayHand(playerHand, 'playerCards');
-    const score = calculateScore(playerHand);
-    document.getElementById('playerScore').textContent = `Score: ${score}`;
-    if (score > 21) {
+    if (calculateScore(playerHand) > 21) {
         alert('You busted! Dealer wins.');
-        endRound(false);
+        updateRecord('B');
     }
 }
 
 function stand() {
-    const playerScore = calculateScore(playerHand);
+    let playerScore = calculateScore(playerHand);
     let dealerScore = calculateScore(dealerHand);
     while (dealerScore < 17) {
         dealerHand.push(deck.pop());
         dealerScore = calculateScore(dealerHand);
     }
-    displayHand(dealerHand, 'dealerCards');
-    if (dealerScore > 21 || playerScore > dealerScore) {
-        alert(`${playerName} wins!`);
-        endRound(true);
-    } else {
-        alert('Dealer wins.');
-        endRound(false);
-    }
+    if (dealerScore > 21 || playerScore > dealerScore) updateRecord('P');
+    else if (playerScore < dealerScore) updateRecord('B');
+    else updateRecord('T');
+}
+
+function updateRecord(result) {
+    if (gameRecords.length >= 12) gameRecords.shift();
+    gameRecords.push(result);
+    renderGameRecord();
+}
+
+function renderGameRecord() {
+    const grid = document.getElementById('recordGrid');
+    grid.innerHTML = '';
+    gameRecords.forEach(res => {
+        const cell = document.createElement('div');
+        cell.className = 'record-cell';
+        cell.textContent = res;
+        if (res === 'P') cell.classList.add('player-win');
+        else if (res === 'B') cell.classList.add('banker-win');
+        else cell.classList.add('tie');
+        grid.appendChild(cell);
+    });
 }
 
 function calculateScore(hand) {
-    let score = 0, aceCount = 0;
-    hand.forEach(card => {
-        if (card.value === 'A') {
-            score += 11;
-            aceCount++;
-        } else if (['J', 'Q', 'K'].includes(card.value)) {
-            score += 10;
-        } else {
-            score += parseInt(card.value);
-        }
-    });
-    while (score > 21 && aceCount > 0) {
-        score -= 10;
-        aceCount--;
-    }
-    return score;
-}
-
-function endRound(isWin) {
-    if (isWin) {
-        credit += currentBet;
-    } else {
-        credit -= currentBet;
-    }
-    points += currentBet / 2;
-
-    document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
-    document.getElementById('pointDisplay').textContent = `Point: ${points}`;
-    startGame();
+    return hand.reduce((sum, card) => sum + (['J', 'Q', 'K'].includes(card.value) ? 10 : parseInt(card.value)), 0);
 }
