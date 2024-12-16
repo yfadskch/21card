@@ -11,7 +11,7 @@ h1 {
     color: gold;
 }
 
-/* 游戏框架 */
+/* 游戏主框架 */
 #gameBoard {
     margin: 20px auto;
     width: 350px;
@@ -35,38 +35,40 @@ h1 {
     font-weight: bold;
 }
 
-/* 框架外功能区 */
-#statusContainer {
+/* 游戏规则 */
+#gameRules {
     margin: 20px auto;
-    font-size: 18px;
-    font-weight: bold;
-    color: gold;
+    width: 400px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    text-align: left;
+    line-height: 1.5;
 }
 
-#chipContainer {
-    margin: 10px auto;
+#statusContainer {
+    margin: 20px 0;
+    font-size: 18px;
+    color: gold;
 }
 
 .chip {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    font-size: 16px;
-    line-height: 60px;
     margin: 5px;
     background-color: #d4af37;
     color: black;
-    border: 2px solid #fff;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    display: inline-block;
 }
 
 .chip:hover {
     background-color: #cba034;
-}
-
-#actionButtons {
-    margin: 10px auto;
 }
 
 button {
