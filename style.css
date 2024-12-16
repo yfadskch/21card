@@ -56,6 +56,28 @@ button:hover {
     margin: 10px 0;
 }
 
+#chipContainer {
+    margin: 10px 0;
+}
+
+.chip {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 16px;
+    line-height: 60px;
+    margin: 5px;
+    background-color: #d4af37;
+    color: black;
+    border: 2px solid #fff;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.chip:hover {
+    background-color: #cba034;
+}
+
 #highlight {
     color: gold;
     font-weight: bold;

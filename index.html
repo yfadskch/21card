@@ -14,17 +14,22 @@
         <button onclick="setPlayerName()">Start Game</button>
     </div>
     <div id="gameBoard" style="display:none;">
+        <div id="dealerHand">
+            <h3>Dealer's Hand</h3>
+            <div id="dealerCards"></div>
+            <p id="dealerScore">Score: 0</p>
+            <progress id="dealerProgress" max="21" value="0"></progress>
+        </div>
         <div id="playerHand">
             <h3 id="playerLabel">Your Hand</h3>
             <div id="playerCards"></div>
             <p id="playerScore">Score: 0</p>
             <progress id="playerProgress" max="21" value="0"></progress>
         </div>
-        <div id="dealerHand">
-            <h3>Dealer's Hand</h3>
-            <div id="dealerCards"></div>
-            <p id="dealerScore">Score: 0</p>
-            <progress id="dealerProgress" max="21" value="0"></progress>
+        <div id="chipContainer">
+            <button class="chip" onclick="selectChip(50)">50</button>
+            <button class="chip" onclick="selectChip(100)">100</button>
+            <button class="chip" onclick="selectChip(200)">200</button>
         </div>
         <button id="hitBtn" onclick="hit()">Hit</button>
         <button id="standBtn" onclick="stand()">Stand</button>

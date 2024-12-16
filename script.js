@@ -1,6 +1,6 @@
 const suits = ['♠', '♥', '♣', '♦'];
 const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-let deck, playerHand, dealerHand, playerName = 'Player';
+let deck, playerHand, dealerHand, playerName = 'Player', currentBet = 0;
 
 function createDeck() {
     const deck = [];
@@ -49,6 +49,11 @@ function setPlayerName() {
     document.getElementById('playerNameContainer').style.display = 'none';
     document.getElementById('gameBoard').style.display = 'block';
     startGame();
+}
+
+function selectChip(amount) {
+    currentBet = amount;
+    alert(`${playerName} bet ${amount}!`);
 }
 
 function hit() {
