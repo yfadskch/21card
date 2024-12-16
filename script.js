@@ -1,6 +1,7 @@
 const suits = ['♠', '♥', '♣', '♦'];
 const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 let deck, playerHand, dealerHand, playerName = 'Player', currentBet = 0;
+let credit = 500, points = 0;
 
 function createDeck() {
     const deck = [];
@@ -52,16 +53,20 @@ function setPlayerName() {
 }
 
 function selectChip(amount) {
-    currentBet = amount;
-    alert(`${playerName} bet ${amount}!`);
+    if (credit >= amount) {
+        currentBet = amount;
+        credit -= amount;
+        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+        alert(`${playerName} bet ${amount}!`);
+    } else {
+        alert("Not enough credit!");
+    }
 }
 
 function hit() {
     playerHand.push(deck.pop());
     displayHand(playerHand, 'playerCards');
     document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
-    document.getElementById('playerProgress').value = calculateScore(playerHand);
-
     if (calculateScore(playerHand) > 21) {
         alert('You busted! Dealer wins.');
         resetGame();
@@ -73,22 +78,24 @@ function stand() {
         dealerHand.push(deck.pop());
     }
     displayHand(dealerHand, 'dealerCards');
-    document.getElementById('dealerScore').textContent = `Score: ${calculateScore(dealerHand)}`;
-    document.getElementById('dealerProgress').value = calculateScore(dealerHand);
+    let playerScore = calculateScore(playerHand);
+    let dealerScore = calculateScore(dealerHand);
 
-    if (calculateScore(dealerHand) > 21 || calculateScore(playerHand) > calculateScore(dealerHand)) {
+    if (dealerScore > 21 || playerScore > dealerScore) {
+        points += currentBet;
         alert(`${playerName} wins!`);
-    } else if (calculateScore(playerHand) < calculateScore(dealerHand)) {
+    } else if (playerScore < dealerScore) {
         alert('Dealer wins.');
     } else {
         alert('It\'s a tie!');
     }
-
     resetGame();
 }
 
 function resetGame() {
-    setTimeout(startGame, 1000);
+    currentBet = 0;
+    document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+    startGame();
 }
 
 function startGame() {
@@ -97,12 +104,8 @@ function startGame() {
     dealerHand = [deck.pop(), deck.pop()];
 
     displayHand(playerHand, 'playerCards');
-    displayHand(dealerHand.slice(0, 1), 'dealerCards'); // Only show 1 dealer card
+    displayHand(dealerHand.slice(0, 1), 'dealerCards');
 
     document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
     document.getElementById('dealerScore').textContent = 'Score: ?';
-    document.getElementById('playerProgress').value = calculateScore(playerHand);
-    document.getElementById('dealerProgress').value = 0;
 }
-
-document.addEventListener('DOMContentLoaded', startGame);

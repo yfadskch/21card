@@ -34,6 +34,13 @@ h1 {
     font-weight: bold;
 }
 
+#statusContainer {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: gold;
+}
+
 button {
     margin: 10px;
     padding: 10px 20px;
@@ -47,13 +54,6 @@ button {
 
 button:hover {
     background-color: #45a049;
-}
-
-#playerProgress,
-#dealerProgress {
-    width: 100%;
-    height: 20px;
-    margin: 10px 0;
 }
 
 #chipContainer {
