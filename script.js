@@ -32,7 +32,8 @@ function startGame() {
     dealerHand = [deck.pop(), deck.pop()];
     displayHand(playerHand, 'playerCards');
     displayHand(dealerHand.slice(0, 1), 'dealerCards');
-    document.getElementById('playerScore').textContent = 'Score: 0';
+    document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
+    document.getElementById('dealerScore').textContent = `Score: ?`;
 }
 
 function displayHand(hand, containerId) {
@@ -53,16 +54,17 @@ function selectChip(amount) {
 
 function hit() {
     if (currentBet === 0) {
-        alert('Please select a chip to place your bet!');
+        alert("Please select a chip to place your bet!");
         return;
     }
+
     playerHand.push(deck.pop());
     displayHand(playerHand, 'playerCards');
     const score = calculateScore(playerHand);
     document.getElementById('playerScore').textContent = `Score: ${score}`;
     if (score > 21) {
         alert('You busted! Dealer wins.');
-        updateCredit(false);
+        endRound(false);
     }
 }
 
@@ -76,10 +78,10 @@ function stand() {
     displayHand(dealerHand, 'dealerCards');
     if (dealerScore > 21 || playerScore > dealerScore) {
         alert(`${playerName} wins!`);
-        updateCredit(true);
+        endRound(true);
     } else {
         alert('Dealer wins.');
-        updateCredit(false);
+        endRound(false);
     }
 }
 
@@ -102,12 +104,16 @@ function calculateScore(hand) {
     return score;
 }
 
-function updateCredit(isWin) {
-    credit += isWin ? currentBet : -currentBet;
+function endRound(isWin) {
+    if (isWin) {
+        credit += currentBet;
+    } else {
+        credit -= currentBet;
+    }
     points += currentBet / 2;
+
     document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
     document.getElementById('pointDisplay').textContent = `Point: ${points}`;
-    currentBet = 0;
-    document.getElementById('highlight').textContent = '';
-    startGame();
+    document.getElementById('highlight').textContent = `Selected Bet: ${currentBet}`;
+    startGame(); // 开始新一轮游戏
 }
