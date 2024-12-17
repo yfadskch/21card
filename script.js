@@ -60,56 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('betDisplay').textContent = 'Bet: ' + bet;
     }
 
-    document.getElementById('rewardBtn').addEventListener('click', openRewardModal);
-
-    function openRewardModal() {
-        let rewardMessage = 'Choose a reward:\n';
-        rewardMessage += '1. 200 Points: +200 Balance\n';
-        rewardMessage += '2. 1000 Points: Welcome Bonus\n';
-        rewardMessage += '3. 3000 Points: Free 8.88\n';
-
-        const selectedOption = prompt(rewardMessage, "Enter 1, 2, or 3");
-        processReward(selectedOption);
-    }
-
-    function processReward(option) {
-        switch(option) {
-            case '1':
-                if (points >= 200) {
-                    points -= 200;
-                    credit += 200;
-                    alert('200 Balance added');
-                } else {
-                    alert('Not enough points.');
-                }
-                break;
-            case '2':
-                if (points >= 1000) {
-                    points -= 1000;
-                    alert('Welcome Bonus awarded');
-                } else {
-                    alert('Not enough points.');
-                }
-                break;
-            case '3':
-                if (points >= 3000) {
-                    points -= 3000;
-                    alert('Free 8.88 awarded');
-                } else {
-                    alert('Not enough points.');
-                }
-                break;
-            default:
-                alert('Invalid option');
-                break;
-        }
-        updateGameStats();
-    }
-
     document.querySelectorAll('.chip').forEach(chip => {
         chip.addEventListener('click', function() {
             bet = parseInt(this.getAttribute('data-amount'));
-            points += bet / 2;  // Assuming points are awarded based on half the bet amount.
             updateGameStats();
         });
     });
@@ -146,14 +99,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const dealerScore = calculateScore(dealerHand);
         if (playerScore > 21) {
             alert(playerName + ' has busted!');
+            points += bet; // Assign points based on the bet
             resetGame();
         } else if (dealerScore > 21) {
             alert('Dealer has busted!');
             credit += bet * 2; // Example reward
+            points += bet; // Assign points based on the bet
             resetGame();
         } else if (dealerScore >= 17 && playerScore > dealerScore) {
             alert(playerName + ' wins!');
             credit += bet * 2; // Example reward
+            points += bet; // Assign points based on the bet
+            resetGame();
+        } else if (playerScore <= 21 && dealerScore >= 17 && playerScore < dealerScore) {
+            alert('Dealer wins!');
+            points += bet; // Assign points even on loss
             resetGame();
         }
     }
