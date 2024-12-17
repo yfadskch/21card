@@ -62,11 +62,21 @@
 
     <!-- Reward, Link, Game Record -->
     <div id="extraFeatures" style="display:none;">
-        <button id="rewardBtn" onclick="reward()">Reward</button>
+        <button id="rewardBtn" onclick="openRewardPopup()">Reward</button>
         <a href="https://heylink.me/klking88/" target="_blank" id="freeCreditLink">Free Credit Tanpa Deposit</a>
         <div id="gameRecord">
             <h3>Game Record</h3>
             <div id="recordGrid"></div>
+        </div>
+    </div>
+
+    <div id="modal" style="display:none;">
+        <div id="modal-content">
+            <span onclick="closeRewardPopup()" style="float:right;cursor:pointer;">&times;</span>
+            <h2>Claim Your Reward</h2>
+            <button onclick="claimReward('1')">Redeem 200 Points for +200 Balance</button>
+            <button onclick="claimReward('2')">Redeem 1000 Points for Welcome Bonus</button>
+            <button onclick="claimReward('3')">Redeem 3000 Points for Free 8.88</button>
         </div>
     </div>
 
