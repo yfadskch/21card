@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.chip').forEach(chip => {
         chip.addEventListener('click', function() {
             bet = parseInt(this.getAttribute('data-amount'));
+            points += bet; // Points are accumulated here
             updateGameStats();
         });
     });
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
         while (calculateScore(dealerHand) < 17) {
             dealerHand.push(dealCard());
         }
-        displayCards(dealerHand, 'dealerCards', true);
+        displayCards(dealerHand, 'dealerCards');
         checkGameEnd();
     });
 
@@ -99,29 +100,24 @@ document.addEventListener('DOMContentLoaded', function () {
         const dealerScore = calculateScore(dealerHand);
         if (playerScore > 21) {
             alert(playerName + ' has busted!');
-            points += bet; // Assign points based on the bet
             resetGame();
         } else if (dealerScore > 21) {
             alert('Dealer has busted!');
             credit += bet * 2; // Example reward
-            points += bet; // Assign points based on the bet
             resetGame();
         } else if (dealerScore >= 17 && playerScore > dealerScore) {
             alert(playerName + ' wins!');
             credit += bet * 2; // Example reward
-            points += bet; // Assign points based on the bet
-            resetGame();
-        } else if (playerScore <= 21 && dealerScore >= 17 && playerScore < dealerScore) {
-            alert('Dealer wins!');
-            points += bet; // Assign points even on loss
             resetGame();
         }
     }
 
     function resetGame() {
-        document.getElementById('gameBoard').style.display = 'none';
-        document.getElementById('playerNameContainer').style.display = 'block';
-        bet = 0;
+        playerHand = [dealCard(), dealCard()];
+        dealerHand = [dealCard(), dealCard()];
+        bet = 0; // Reset bet to zero
         updateGameStats();
+        displayCards(playerHand, 'playerCards');
+        displayCards(dealerHand, 'dealerCards', true);
     }
 });
