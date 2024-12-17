@@ -47,4 +47,26 @@ function displayHand(hand, containerId, showAll = true) {
 
 function updateGameStatus() {
     document.getElementById('dealerScore').textContent = `Score: ${calculateScore(dealerHand.slice(0, 1))}`;
-    document.getEl
+    document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
+    document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+    document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+    document.getElementById('betDisplay').textContent = `Bet: ${bet}`;
+}
+
+function calculateScore(hand) {
+    return hand.reduce((total, card) => total + (card.value === 'A' ? 11 : isNaN(card.value) ? 10 : parseInt(card.value)), 0);
+}
+
+function openRewardModal() {
+    // Simple reward logic: Offering fixed rewards for simplification
+    if (points >= 500) {
+        credit += 100;
+        points -= 500;
+        alert('You claimed 500 points for $100 credit bonus!');
+    } else {
+        alert('Not enough points to claim rewards!');
+    }
+    updateGameStatus();
+}
+
+document.getElementById('rewardBtn').addEventListener('click', openRewardModal);
