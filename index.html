@@ -7,33 +7,38 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="playerNameContainer">
-        <label for="playerName">Enter your name:</label>
-        <input type="text" id="playerName" placeholder="Player Name">
-        <button id="startGameBtn">Start Game</button>
-    </div>
-
-    <div id="gameBoard" style="display:none;">
-        <h2>Dealer's Hand</h2>
-        <div id="dealerCards"></div>
-        <h2 id="playerLabel">Player's Hand</h2>
-        <div id="playerCards"></div>
-        <div id="controls">
-            <button class="chip" data-amount="50">50</button>
-            <button class="chip" data-amount="100">100</button>
-            <button class="chip" data-amount="200">200</button>
-            <button id="hitBtn">Hit</button>
-            <button id="standBtn">Stand</button>
+    <div id="gameContainer">
+        <div id="playerNameContainer">
+            <input type="text" id="playerName" placeholder="Enter your name">
+            <button id="startGameBtn">Start Game</button>
         </div>
-        <button id="claimRewardBtn">Claim Reward</button>
-        <a href="https://heylink.me/klking88/" target="_blank">Free Credit Tanpa Deposit</a>
-        <div id="gameStats">
-            <p id="creditDisplay">Credit: 500</p>
-            <p id="pointDisplay">Point: 0</p>
-            <p id="betDisplay">Bet: 0</p>
+        <div id="gameBoard">
+            <div id="dealerSection">
+                <h2>Dealer's Hand</h2>
+                <div id="dealerCards" class="cards"></div>
+            </div>
+            <div id="playerSection">
+                <h2>Player's Hand</h2>
+                <div id="playerCards" class="cards"></div>
+            </div>
+            <div id="gameControls">
+                <button class="chip" data-amount="50">50</button>
+                <button class="chip" data-amount="100">100</button>
+                <button class="chip" data-amount="200">200</button>
+                <button id="hitBtn">Hit</button>
+                <button id="standBtn">Stand</button>
+            </div>
+            <div id="gameExtras">
+                <button id="claimRewardBtn">Claim Reward</button>
+                <a href="https://heylink.me/klking88/" target="_blank">Free Credit Tanpa Deposit</a>
+            </div>
+            <div id="gameStats">
+                <p id="creditDisplay">Credit: 500</p>
+                <p id="pointDisplay">Point: 0</p>
+                <p id="betDisplay">Bet: 0</p>
+            </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
