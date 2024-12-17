@@ -9,22 +9,20 @@
 <body>
     <h1>21 Point Game</h1>
 
-    <!-- 玩家姓名输入框 -->
     <div id="playerNameContainer">
         <label for="playerName">Enter your name:</label>
         <input type="text" id="playerName" placeholder="Player Name">
         <button onclick="setPlayerName()">Start Game</button>
     </div>
 
-    <!-- 游戏主框架 -->
     <div id="gameBoard" style="display:none;">
         <div id="dealerHand">
             <h3>Dealer's Hand</h3>
-            <div id="dealerCards">Score: ?</div>
+            <div id="dealerCards"></div>
         </div>
         <div id="playerHand">
             <h3 id="playerLabel">Player's Hand</h3>
-            <div id="playerCards">Score: 0</div>
+            <div id="playerCards"></div>
         </div>
         <p id="creditDisplay">Credit: 500</p>
         <p id="pointDisplay">Point: 0</p>
