@@ -1,67 +1,23 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-    background-color: #282c34;
-    color: white;
+// Existing script content...
+
+// Additional functions for the reward modal
+function openRewardModal() {
+    document.getElementById('rewardModal').style.display = 'block';
 }
 
-/* Existing styles */
-#gameBoard, #playerNameContainer, #gameRules, #statusContainer, #chipContainer, #actionButtons, #extraFeatures {
-    margin: 20px auto;
-    border: 2px solid white;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    width: 350px;
-    display: none; /* Manage visibility via JavaScript */
+function closeRewardModal() {
+    document.getElementById('rewardModal').style.display = 'none';
 }
 
-.card, .chip {
-    display: inline-block;
-    margin: 5px;
-    padding: 5px;
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
+function redeemReward(points, rewardDescription) {
+    // Assuming 'points' variable from your game logic to track user points
+    if (points <= credit) { // Ensure player has enough points
+        credit -= points;
+        alert(`You redeemed ${points} points for ${rewardDescription}.`);
+    } else {
+        alert("Not enough points.");
+    }
+    closeRewardModal();
 }
 
-button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45A049;
-}
-
-/* Modal popup styles */
-#modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* Ensure modal is above all other content */
-}
-
-#modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 300px;
-    color: black;
-}
+// Existing game functions...

@@ -8,79 +8,41 @@
 </head>
 <body>
     <h1>21 Point Game</h1>
-
-    <!-- 玩家姓名输入框 -->
+    <!-- Reward Modal Popup -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRewardModal()">&times;</span>
+            <h2>Choose a reward:</h2>
+            <p><button onclick="redeemReward(200, 200)">200 Points for +200 Balance</button></p>
+            <p><button onclick="redeemReward(1000, 'Welcome Bonus')">1000 Points for Welcome Bonus</button></p>
+            <p><button onclick="redeemReward(3000, 'Free 8.88')">3000 Points for Free 8.88</button></p>
+        </div>
+    </div>
+    <!-- Existing game structure -->
     <div id="playerNameContainer">
         <label for="playerName">Enter your name:</label>
         <input type="text" id="playerName" placeholder="Player Name">
         <button onclick="setPlayerName()">Start Game</button>
     </div>
-
-    <!-- 游戏规则 -->
     <div id="gameRules">
-        <h2>Game Rules:</h2>
-        <p>1. Select a chip (50, 100, 200) to place your bet.</p>
-        <p>2. Hit to draw a card or Stand to hold your hand.</p>
-        <p>3. Win if your score is closer to 21 than the dealer's without going over.</p>
-        <p>4. You gain points equal to half of your bet.</p>
-        <p>5. Credit increases or decreases based on the result of the round.</p>
+        <!-- Game rules text -->
     </div>
-
-    <!-- 游戏主框架 -->
     <div id="gameBoard" style="display:none;">
-        <div id="dealerHand">
-            <h3>Dealer's Hand</h3>
-            <div id="dealerCards"></div>
-            <p id="dealerScore">Score: ?</p>
-            <progress id="dealerProgress" max="21" value="0"></progress>
-        </div>
-        <div id="playerHand">
-            <h3 id="playerLabel">Your Hand</h3>
-            <div id="playerCards"></div>
-            <p id="playerScore">Score: 0</p>
-            <progress id="playerProgress" max="21" value="0"></progress>
-        </div>
+        <!-- Game board elements -->
     </div>
-
-    <!-- 框架外功能区 -->
     <div id="statusContainer" style="display:none;">
-        <p id="creditDisplay">Credit: 500</p>
-        <p id="pointDisplay">Point: 0</p>
-        <p id="betDisplay">Bet: 0</p>
+        <!-- Status elements -->
     </div>
-
     <div id="chipContainer" style="display:none;">
-        <button class="chip" onclick="selectChip(50)">50</button>
-        <button class="chip" onclick="selectChip(100)">100</button>
-        <button class="chip" onclick="selectChip(200)">200</button>
+        <!-- Chip buttons -->
     </div>
-
     <div id="actionButtons" style="display:none;">
-        <button id="hitBtn" onclick="hit()">Hit</button>
-        <button id="standBtn" onclick="stand()">Stand</button>
+        <!-- Action buttons -->
     </div>
-
-    <!-- Reward, Link, Game Record -->
     <div id="extraFeatures" style="display:none;">
-        <button id="rewardBtn" onclick="openRewardPopup()">Reward</button>
-        <a href="https://heylink.me/klking88/" target="_blank" id="freeCreditLink">Free Credit Tanpa Deposit</a>
-        <div id="gameRecord">
-            <h3>Game Record</h3>
-            <div id="recordGrid"></div>
-        </div>
+        <button id="rewardBtn" onclick="openRewardModal()">Claim Reward</button>
+        <!-- Other extra features -->
     </div>
-
-    <div id="modal" style="display:none;">
-        <div id="modal-content">
-            <span onclick="closeRewardPopup()" style="float:right;cursor:pointer;">&times;</span>
-            <h2>Claim Your Reward</h2>
-            <button onclick="claimReward('1')">Redeem 200 Points for +200 Balance</button>
-            <button onclick="claimReward('2')">Redeem 1000 Points for Welcome Bonus</button>
-            <button onclick="claimReward('3')">Redeem 3000 Points for Free 8.88</button>
-        </div>
-    </div>
-
-    <p id="highlight"></p>
     <script src="script.js"></script>
 </body>
 </html>
