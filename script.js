@@ -1,4 +1,4 @@
-let credit = 500, points = 0;
+let credit = 500, points = 0, currentBet = 0;
 
 function setPlayerName() {
     document.getElementById('playerNameContainer').style.display = 'none';
@@ -7,9 +7,11 @@ function setPlayerName() {
     document.getElementById('chipContainer').style.display = 'block';
     document.getElementById('actionButtons').style.display = 'block';
     document.getElementById('extraFeatures').style.display = 'block';
+    document.getElementById('gameRecord').style.display = 'block';
 }
 
 function selectChip(amount) {
+    currentBet = amount;
     document.getElementById('betDisplay').textContent = `Bet: ${amount}`;
 }
 
@@ -54,4 +56,17 @@ function claimReward(option) {
 function updateDisplay() {
     document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
     document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+}
+
+function addGameRecord(result) {
+    const recordGrid = document.getElementById('recordGrid');
+    if (recordGrid.children.length >= 12) recordGrid.removeChild(recordGrid.children[0]);
+
+    const cell = document.createElement('div');
+    cell.classList.add('record-cell');
+    cell.textContent = result;
+    if (result === 'P') cell.classList.add('player-win');
+    else if (result === 'B') cell.classList.add('banker-win');
+    else if (result === 'T') cell.classList.add('tie');
+    recordGrid.appendChild(cell);
 }

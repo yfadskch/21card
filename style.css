@@ -1,57 +1,76 @@
-let credit = 500, points = 0;
-
-function setPlayerName() {
-    document.getElementById('playerNameContainer').style.display = 'none';
-    document.getElementById('gameBoard').style.display = 'block';
-    document.getElementById('statusContainer').style.display = 'block';
-    document.getElementById('chipContainer').style.display = 'block';
-    document.getElementById('actionButtons').style.display = 'block';
-    document.getElementById('extraFeatures').style.display = 'block';
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #282c34;
+    color: white;
 }
 
-function selectChip(amount) {
-    document.getElementById('betDisplay').textContent = `Bet: ${amount}`;
+h1 {
+    color: gold;
+    margin-top: 20px;
 }
 
-function hit() {
-    alert("Hit function - Implement your game logic here!");
+#playerNameContainer {
+    margin-top: 20px;
 }
 
-function stand() {
-    alert("Stand function - Implement your game logic here!");
+button, a {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-function openRewardPopup() {
-    document.getElementById('modal').style.display = 'block';
+button:hover, a:hover {
+    background-color: #45a049;
 }
 
-function closeRewardPopup() {
-    document.getElementById('modal').style.display = 'none';
+#gameBoard, #statusContainer, #chipContainer, #actionButtons, #extraFeatures {
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
-function claimReward(option) {
-    let message = '';
-    if (option === 1 && points >= 200) {
-        points -= 200;
-        credit += 200;
-        message = "You redeemed 200 points for +200 Balance!";
-    } else if (option === 2 && points >= 1000) {
-        points -= 1000;
-        credit += 1000;
-        message = "You redeemed 1000 points for +1000 Balance!";
-    } else if (option === 3 && points >= 3000) {
-        points -= 3000;
-        credit += 3000;
-        message = "You redeemed 3000 points for Free 8.88!";
-    } else {
-        message = "Not enough points to redeem this reward!";
-    }
-
-    document.getElementById('modal-message').textContent = message;
-    updateDisplay();
+#recordGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 50px);
+    grid-template-rows: repeat(2, 50px);
+    gap: 5px;
+    justify-content: center;
 }
 
-function updateDisplay() {
-    document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
-    document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+.record-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50%;
+    color: white;
+}
+
+.player-win { background-color: blue; }
+.banker-win { background-color: red; }
+.tie { background-color: green; }
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
