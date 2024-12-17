@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function resetGame() {
+        // Reset only the hands and bet, keep the game board visible
         playerHand = [dealCard(), dealCard()];
         dealerHand = [dealCard(), dealCard()];
         bet = 0; // Reset bet to zero
