@@ -19,7 +19,7 @@ body {
     align-items: center;
 }
 
-#chipContainer, #actionButtons {
+#chipContainer, #actionButtons, #rewardContainer {
     margin-bottom: 10px;
 }
 
