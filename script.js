@@ -62,11 +62,39 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Claim your rewards here!');
     }
 
-    // Ensure all event listeners are attached after DOM is fully loaded
+    // Setup event listeners
     document.getElementById('rewardBtn').addEventListener('click', openRewardModal);
-    document.querySelector('[onclick="setPlayerName()"]').addEventListener('click', setPlayerName);
-
-    // Remove inline JS if any to clean up and ensure everything is bound correctly
     document.querySelector('[onclick="setPlayerName()"]').removeAttribute('onclick');
-});
+    document.getElementById('startGameBtn').addEventListener('click', setPlayerName);
+    document.querySelectorAll('.chip').forEach(button => button.addEventListener('click', function() { selectChip(parseInt(this.textContent)); }));
+    document.getElementById('hitBtn').addEventListener('click', hit);
+    document.getElementById('standBtn').addEventListener('click', stand);
 
+    function selectChip(amount) {
+        currentBet = amount;
+        updateGameStatus();
+    }
+
+    function hit() {
+        playerHand.push(dealCard());
+        displayHand(playerHand, 'playerCards');
+        checkForEndOfGame();
+    }
+
+    function stand() {
+        while (calculateScore(dealerHand) < 17) {
+            dealerHand.push(dealCard());
+        }
+        displayHand(dealerHand, 'dealerCards', true);
+        checkForEndOfGame();
+    }
+
+    function checkForEndOfGame() {
+        const playerScore = calculateScore(playerHand);
+        if (playerScore > 21) {
+            alert(`${playerName} has busted!`);
+        } else {
+            alert("The game continues, make your next move.");
+        }
+    }
+});
