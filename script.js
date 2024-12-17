@@ -5,27 +5,25 @@ let gameRecords = [];
 function setPlayerName() {
     const nameInput = document.getElementById('playerName').value.trim();
     playerName = nameInput || 'Player';
-    document.getElementById('playerLabel').textContent = `${playerName}'s Hand`;
     document.getElementById('playerNameContainer').style.display = 'none';
-    document.getElementById('gameRules').style.display = 'block';
+    document.getElementById('gameRules').style.display = 'none';
     document.getElementById('gameBoard').style.display = 'block';
     document.getElementById('statusContainer').style.display = 'block';
     document.getElementById('chipContainer').style.display = 'block';
     document.getElementById('actionButtons').style.display = 'block';
-    document.getElementById('extraFeatures').style.display = 'block';
     startGame();
 }
 
 function startGame() {
-    // Implement game start logic
+    // Initialize game logic here
 }
 
 function hit() {
-    // Implement game hit logic
+    // Game hit logic
 }
 
 function stand() {
-    // Implement game stand logic
+    // Game stand logic
 }
 
 function selectChip(amount) {
@@ -33,19 +31,4 @@ function selectChip(amount) {
     document.getElementById('betDisplay').textContent = `Bet: ${amount}`;
 }
 
-function redeemReward(points, reward) {
-    if (points <= credit) {
-        credit -= points;
-        alert(`You redeemed ${points} points for ${reward}`);
-    } else {
-        alert("Not enough points.");
-    }
-}
-
-function openRewardModal() {
-    document.getElementById('rewardModal').style.display = 'block';
-}
-
-function closeRewardModal() {
-    document.getElementById('rewardModal').style.display = 'none';
-}
+// Additional game functions as needed
