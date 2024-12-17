@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let deck, playerHand, dealerHand, playerName = 'Player', currentBet = 0;
-    let credit = 500, points = 0, bet = 0;
+    let deck, playerHand, dealerHand, playerName = 'Player';
+    let credit = 500, points = 0, lastBet = 0;
 
     document.getElementById('startGameBtn').addEventListener('click', function() {
         playerName = document.getElementById('playerName').value.trim() || 'Player';
@@ -10,13 +10,37 @@ document.addEventListener('DOMContentLoaded', function () {
         startGame();
     });
 
+    document.getElementById('claimRewardBtn').addEventListener('click', openRewardPopup);
+
+    function openRewardPopup() {
+        let rewardMessage = '';
+        if (points >= 3000) {
+            credit += 888;  // For example, adding $8.88 or 888 credits
+            points -= 3000;
+            rewardMessage = 'You redeemed 3000 Points for Free $8.88!';
+        } else if (points >= 1000) {
+            credit += 100;  // For example, adding $100 or 100 credits
+            points -= 1000;
+            rewardMessage = 'You redeemed 1000 Points for Welcome Bonus!';
+        } else if (points >= 200) {
+            credit += 200;  // Adding 200 credits
+            points -= 200;
+            rewardMessage = 'You redeemed 200 Points for +200 Balance!';
+        } else {
+            rewardMessage = 'Not enough points to redeem any reward.';
+        }
+        alert(rewardMessage);
+        updateDisplay();
+    }
+
     function startGame() {
         deck = createDeck();
         playerHand = [dealCard(), dealCard()];
         dealerHand = [dealCard(), dealCard()];
-        displayCards(playerHand, 'playerCards');
-        displayCards(dealerHand, 'dealerCards', true);
-        updateGameStats();
+        updateDisplay();
+        if (lastBet > 0 && credit >= lastBet) { // Reuse last bet if possible
+            placeBet(lastBet);
+        }
     }
 
     function createDeck() {
@@ -25,100 +49,94 @@ document.addEventListener('DOMContentLoaded', function () {
         let deck = [];
         suits.forEach(suit => {
             values.forEach(value => {
-                deck.push({ suit: suit, value: value });
+                deck.push(value + suit);
             });
         });
-        return shuffleDeck(deck);
+        return shuffle(deck);
     }
 
-    function shuffleDeck(deck) {
-        for (let i = deck.length - 1; i > 0; i--) {
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [deck[i], deck[j]] = [deck[j], deck[i]];
+            [array[i], array[j]] = [array[j], array[i]];
         }
-        return deck;
+        return array;
     }
 
     function dealCard() {
         return deck.pop();
     }
 
-    function displayCards(hand, elementId, hideSecondCard = false) {
-        const container = document.getElementById(elementId);
-        container.innerHTML = '';
-        hand.forEach((card, index) => {
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
-            cardDiv.textContent = hideSecondCard && index === 1 ? '??' : `${card.value}${card.suit}`;
-            container.appendChild(cardDiv);
-        });
-    }
-
-    function updateGameStats() {
+    function updateDisplay() {
+        document.getElementById('dealerCards').textContent = dealerHand.map((card, index) => index === 1 ? '??' : card).join(' ');
+        document.getElementById('playerCards').textContent = playerHand.join(' ');
         document.getElementById('creditDisplay').textContent = 'Credit: ' + credit;
         document.getElementById('pointDisplay').textContent = 'Point: ' + points;
-        document.getElementById('betDisplay').textContent = 'Bet: ' + bet;
     }
 
-    document.querySelectorAll('.chip').forEach(chip => {
-        chip.addEventListener('click', function() {
-            bet = parseInt(this.getAttribute('data-amount'));
-            points += bet; // Points are accumulated here
-            updateGameStats();
+    document.querySelectorAll('.chip').forEach(button => {
+        button.addEventListener('click', function() {
+            placeBet(parseInt(this.dataset.amount));
         });
     });
 
-    document.getElementById('hitBtn').addEventListener('click', () => {
+    function placeBet(amount) {
+        if (credit >= amount) {
+            lastBet = amount;
+            points += amount; // Update points based on bet
+            updateDisplay();
+        } else {
+            alert("Not enough credit to place bet");
+        }
+    }
+
+    document.getElementById('hitBtn').addEventListener('click', function() {
         playerHand.push(dealCard());
-        displayCards(playerHand, 'playerCards');
-        checkGameEnd();
+        updateDisplay();
+        checkEndGame();
     });
 
-    document.getElementById('standBtn').addEventListener('click', () => {
+    document.getElementById('standBtn').addEventListener('click', function() {
         while (calculateScore(dealerHand) < 17) {
             dealerHand.push(dealCard());
         }
-        displayCards(dealerHand, 'dealerCards');
-        checkGameEnd();
+        updateDisplay();
+        checkEndGame();
     });
 
     function calculateScore(hand) {
-        let score = hand.reduce((total, card) => {
-            let value = card.value;
-            if (value === 'A') {
-                return total + (total + 11 <= 21 ? 11 : 1);
-            } else if (['J', 'Q', 'K'].includes(value)) {
-                return total + 10;
+        let score = hand.reduce((score, card) => {
+            let value = card[0];
+            if ('JQK'.includes(value)) {
+                return score + 10;
+            } else if (value === 'A') {
+                return score + 11 > 21 ? score + 1 : score + 11;
             }
-            return total + parseInt(value);
+            return score + parseInt(value);
         }, 0);
         return score;
     }
 
-    function checkGameEnd() {
-        const playerScore = calculateScore(playerHand);
-        const dealerScore = calculateScore(dealerHand);
-        if (playerScore > 21) {
-            alert(playerName + ' has busted!');
-            resetGame();
-        } else if (dealerScore > 21) {
-            alert('Dealer has busted!');
-            credit += bet * 2; // Example reward
+    function checkEndGame() {
+        let playerScore = calculateScore(playerHand);
+        let dealerScore = calculateScore(dealerHand);
+        if (playerScore > 21 || dealerScore > 21) {
+            let result = playerScore > 21 ? 'Player busts' : 'Dealer busts';
+            alert(result);
             resetGame();
         } else if (dealerScore >= 17 && playerScore > dealerScore) {
-            alert(playerName + ' wins!');
-            credit += bet * 2; // Example reward
+            let result = playerScore > dealerScore ? 'Player wins' : 'Dealer wins';
+            alert(result);
             resetGame();
         }
     }
 
     function resetGame() {
-        // Reset only the hands and bet, keep the game board visible
+        if (deck.length < 20) { // Reshuffle the deck if low
+            deck = createDeck();
+        }
         playerHand = [dealCard(), dealCard()];
         dealerHand = [dealCard(), dealCard()];
-        bet = 0; // Reset bet to zero
-        updateGameStats();
-        displayCards(playerHand, 'playerCards');
-        displayCards(dealerHand, 'dealerCards', true);
+        updateDisplay();
     }
 });
