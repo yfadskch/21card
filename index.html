@@ -16,39 +16,28 @@
         <button onclick="setPlayerName()">Start Game</button>
     </div>
 
-    <!-- 游戏规则 -->
-    <div id="gameRules">
-        <h2>Game Rules:</h2>
-        <p>1. Select a chip (50, 100, 200) to place your bet.</p>
-        <p>2. Hit to draw a card or Stand to hold your hand.</p>
-        <p>3. Win if your score is closer to 21 than the dealer's without going over.</p>
-        <p>4. You gain points equal to half of your bet.</p>
-        <p>5. Credit increases or decreases based on the result of the round.</p>
-    </div>
-
     <!-- 游戏主框架 -->
     <div id="gameBoard" style="display:none;">
         <div id="dealerHand">
             <h3>Dealer's Hand</h3>
             <div id="dealerCards"></div>
             <p id="dealerScore">Score: ?</p>
-            <progress id="dealerProgress" max="21" value="0"></progress>
         </div>
         <div id="playerHand">
             <h3 id="playerLabel">Your Hand</h3>
             <div id="playerCards"></div>
             <p id="playerScore">Score: 0</p>
-            <progress id="playerProgress" max="21" value="0"></progress>
         </div>
     </div>
 
-    <!-- 框架外功能区 -->
+    <!-- 状态显示 -->
     <div id="statusContainer" style="display:none;">
         <p id="creditDisplay">Credit: 500</p>
         <p id="pointDisplay">Point: 0</p>
         <p id="betDisplay">Bet: 0</p>
     </div>
 
+    <!-- 按钮区域 -->
     <div id="chipContainer" style="display:none;">
         <button class="chip" onclick="selectChip(50)">50</button>
         <button class="chip" onclick="selectChip(100)">100</button>
@@ -56,21 +45,33 @@
     </div>
 
     <div id="actionButtons" style="display:none;">
-        <button id="hitBtn" onclick="hit()">Hit</button>
-        <button id="standBtn" onclick="stand()">Stand</button>
+        <button onclick="hit()">Hit</button>
+        <button onclick="stand()">Stand</button>
     </div>
 
-    <!-- Reward, Link, Game Record -->
     <div id="extraFeatures" style="display:none;">
-        <button id="rewardBtn" onclick="reward()">Reward</button>
-        <a href="https://heylink.me/klking88/" target="_blank" id="freeCreditLink">Free Credit Tanpa Deposit</a>
-        <div id="gameRecord">
-            <h3>Game Record</h3>
-            <div id="recordGrid"></div>
+        <button onclick="openRewardPopup()">Reward</button>
+        <a href="https://heylink.me/klking88/" target="_blank">Free Credit Tanpa Deposit</a>
+    </div>
+
+    <!-- Game Record -->
+    <div id="gameRecord">
+        <h3>Game Record</h3>
+        <div id="recordGrid"></div>
+    </div>
+
+    <!-- Reward Modal -->
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <p>Choose Your Reward:</p>
+            <button class="reward-option" onclick="claimReward(1)">200 Points: +200 Balance</button>
+            <button class="reward-option" onclick="claimReward(2)">1000 Points: +1000 Balance</button>
+            <button class="reward-option" onclick="claimReward(3)">3000 Points: Free 8.88</button>
+            <p id="modal-message"></p>
+            <button onclick="closeRewardPopup()">Close</button>
         </div>
     </div>
 
-    <p id="highlight"></p>
     <script src="script.js"></script>
 </body>
 </html>

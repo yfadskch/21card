@@ -1,97 +1,57 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-    background-color: #282c34;
-    color: white;
+let credit = 500, points = 0;
+
+function setPlayerName() {
+    document.getElementById('playerNameContainer').style.display = 'none';
+    document.getElementById('gameBoard').style.display = 'block';
+    document.getElementById('statusContainer').style.display = 'block';
+    document.getElementById('chipContainer').style.display = 'block';
+    document.getElementById('actionButtons').style.display = 'block';
+    document.getElementById('extraFeatures').style.display = 'block';
 }
 
-h1 {
-    color: gold;
+function selectChip(amount) {
+    document.getElementById('betDisplay').textContent = `Bet: ${amount}`;
 }
 
-/* 游戏主框架 */
-#gameBoard {
-    margin: 20px auto;
-    width: 350px;
-    border: 2px solid white;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
+function hit() {
+    alert("Hit function - Implement your game logic here!");
 }
 
-.card {
-    display: inline-block;
-    width: 60px;
-    height: 80px;
-    border: 1px solid white;
-    margin: 5px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    line-height: 80px;
-    font-size: 18px;
-    font-weight: bold;
+function stand() {
+    alert("Stand function - Implement your game logic here!");
 }
 
-#statusContainer {
-    margin: 20px 0;
-    font-size: 18px;
-    color: gold;
+function openRewardPopup() {
+    document.getElementById('modal').style.display = 'block';
 }
 
-.chip {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin: 5px;
-    background-color: #d4af37;
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+function closeRewardPopup() {
+    document.getElementById('modal').style.display = 'none';
 }
 
-button, a {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    text-decoration: none;
-    display: inline-block;
+function claimReward(option) {
+    let message = '';
+    if (option === 1 && points >= 200) {
+        points -= 200;
+        credit += 200;
+        message = "You redeemed 200 points for +200 Balance!";
+    } else if (option === 2 && points >= 1000) {
+        points -= 1000;
+        credit += 1000;
+        message = "You redeemed 1000 points for +1000 Balance!";
+    } else if (option === 3 && points >= 3000) {
+        points -= 3000;
+        credit += 3000;
+        message = "You redeemed 3000 points for Free 8.88!";
+    } else {
+        message = "Not enough points to redeem this reward!";
+    }
+
+    document.getElementById('modal-message').textContent = message;
+    updateDisplay();
 }
 
-button:hover, a:hover {
-    background-color: #45a049;
+function updateDisplay() {
+    document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+    document.getElementById('pointDisplay').textContent = `Point: ${points}`;
 }
-
-#gameRecord {
-    margin: 20px auto;
-}
-
-#recordGrid {
-    display: grid;
-    grid-template-columns: repeat(6, 50px);
-    grid-template-rows: repeat(2, 50px);
-    gap: 5px;
-    justify-content: center;
-}
-
-.record-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 50%;
-    color: white;
-}
-
-.player-win { background-color: blue; }
-.banker-win { background-color: red; }
-.tie { background-color: green; }
