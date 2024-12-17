@@ -9,49 +9,32 @@
 <body>
     <h1>21 Point Game</h1>
 
-    <!-- 玩家姓名输入框和游戏规则 -->
+    <!-- 玩家姓名输入框 -->
     <div id="playerNameContainer">
         <label for="playerName">Enter your name:</label>
         <input type="text" id="playerName" placeholder="Player Name">
         <button onclick="setPlayerName()">Start Game</button>
-        
-        <!-- 游戏规则 -->
-        <div id="gameRules">
-            <h2>Game Rules:</h2>
-            <p>1. Select a chip (50, 100, 200) to place your bet.</p>
-            <p>2. Hit to draw a card or Stand to hold your hand.</p>
-            <p>3. Win if your score is closer to 21 than the dealer's without going over.</p>
-            <p>4. You gain points equal to half of your bet.</p>
-            <p>5. Credit increases or decreases based on the result of the round.</p>
-        </div>
     </div>
 
-    <!-- 游戏主框架，初始隐藏 -->
+    <!-- 游戏主框架 -->
     <div id="gameBoard" style="display:none;">
         <div id="dealerHand">
             <h3>Dealer's Hand</h3>
-            <div id="dealerCards"></div>
-            <p id="dealerScore">Score: ?</p>
+            <div id="dealerCards">Score: ?</div>
         </div>
         <div id="playerHand">
             <h3 id="playerLabel">Player's Hand</h3>
-            <div id="playerCards"></div>
-            <p id="playerScore">Score: 0</p>
+            <div id="playerCards">Score: 0</div>
         </div>
-        <div id="statusContainer">
-            <p id="creditDisplay">Credit: 500</p>
-            <p id="pointDisplay">Point: 0</p>
-            <p id="betDisplay">Bet: 0</p>
-        </div>
-        <div id="chipContainer">
-            <button class="chip" onclick="selectChip(50)">50</button>
-            <button class="chip" onclick="selectChip(100)">100</button>
-            <button class="chip" onclick="selectChip(200)">200</button>
-        </div>
-        <div id="actionButtons">
-            <button id="hitBtn" onclick="hit()">Hit</button>
-            <button id="standBtn" onclick="stand()">Stand</button>
-        </div>
+        <p id="creditDisplay">Credit: 500</p>
+        <p id="pointDisplay">Point: 0</p>
+        <p id="betDisplay">Bet: 0</p>
+        <button class="chip" onclick="selectChip(50)">50</button>
+        <button class="chip" onclick="selectChip(100)">100</button>
+        <button class="chip" onclick="selectChip(200)">200</button>
+        <button id="hitBtn" onclick="hit()">Hit</button>
+        <button id="standBtn" onclick="stand()">Stand</button>
+        <button id="rewardBtn" onclick="openRewardModal()">Claim Reward</button>
     </div>
 
     <script src="script.js"></script>
