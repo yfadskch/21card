@@ -63,12 +63,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Setup event listeners
-    document.getElementById('rewardBtn').addEventListener('click', openRewardModal);
-    document.querySelector('[onclick="setPlayerName()"]').removeAttribute('onclick');
     document.getElementById('startGameBtn').addEventListener('click', setPlayerName);
-    document.querySelectorAll('.chip').forEach(button => button.addEventListener('click', function() { selectChip(parseInt(this.textContent)); }));
+    document.querySelectorAll('.chip').forEach(button => button.addEventListener('click', function() { selectChip(parseInt(this.getAttribute('data-amount'))); }));
     document.getElementById('hitBtn').addEventListener('click', hit);
     document.getElementById('standBtn').addEventListener('click', stand);
+    document.getElementById('rewardBtn').addEventListener('click', openRewardModal);
 
     function selectChip(amount) {
         currentBet = amount;

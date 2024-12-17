@@ -12,7 +12,7 @@
     <div id="playerNameContainer">
         <label for="playerName">Enter your name:</label>
         <input type="text" id="playerName" placeholder="Player Name">
-        <button onclick="setPlayerName()">Start Game</button>
+        <button id="startGameBtn">Start Game</button>
     </div>
 
     <div id="gameBoard" style="display:none;">
@@ -27,12 +27,12 @@
         <p id="creditDisplay">Credit: 500</p>
         <p id="pointDisplay">Point: 0</p>
         <p id="betDisplay">Bet: 0</p>
-        <button class="chip" onclick="selectChip(50)">50</button>
-        <button class="chip" onclick="selectChip(100)">100</button>
-        <button class="chip" onclick="selectChip(200)">200</button>
-        <button id="hitBtn" onclick="hit()">Hit</button>
-        <button id="standBtn" onclick="stand()">Stand</button>
-        <button id="rewardBtn" onclick="openRewardModal()">Claim Reward</button>
+        <button class="chip" data-amount="50">50</button>
+        <button class="chip" data-amount="100">100</button>
+        <button class="chip" data-amount="200">200</button>
+        <button id="hitBtn">Hit</button>
+        <button id="standBtn">Stand</button>
+        <button id="rewardBtn">Claim Reward</button>
     </div>
 
     <script src="script.js"></script>
