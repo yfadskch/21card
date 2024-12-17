@@ -14,6 +14,13 @@ body {
     border-radius: 10px;
     width: 350px;
     border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chipContainer, #actionButtons {
+    margin-bottom: 10px;
 }
 
 .card {
@@ -40,4 +47,14 @@ body {
 
 .chip:hover, #hitBtn:hover, #standBtn:hover, #rewardBtn:hover {
     background-color: #45a049;
+}
+
+#freeCreditLink {
+    color: #00FF00;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+#freeCreditLink:hover {
+    text-decoration: underline;
 }
