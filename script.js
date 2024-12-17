@@ -10,29 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
         startGame();
     });
 
-    document.getElementById('claimRewardBtn').addEventListener('click', openRewardPopup);
-
-    function openRewardPopup() {
-        let rewardMessage = '';
-        if (points >= 3000) {
-            credit += 888;  // For example, adding $8.88 or 888 credits
-            points -= 3000;
-            rewardMessage = 'You redeemed 3000 Points for Free $8.88!';
-        } else if (points >= 1000) {
-            credit += 100;  // For example, adding $100 or 100 credits
-            points -= 1000;
-            rewardMessage = 'You redeemed 1000 Points for Welcome Bonus!';
-        } else if (points >= 200) {
-            credit += 200;  // Adding 200 credits
-            points -= 200;
-            rewardMessage = 'You redeemed 200 Points for +200 Balance!';
-        } else {
-            rewardMessage = 'Not enough points to redeem any reward.';
-        }
-        alert(rewardMessage);
-        updateDisplay();
-    }
-
     function startGame() {
         deck = createDeck();
         playerHand = [dealCard(), dealCard()];
@@ -72,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('playerCards').textContent = playerHand.join(' ');
         document.getElementById('creditDisplay').textContent = 'Credit: ' + credit;
         document.getElementById('pointDisplay').textContent = 'Point: ' + points;
+        document.getElementById('betDisplay').textContent = 'Bet: ' + lastBet;
     }
 
     document.querySelectorAll('.chip').forEach(button => {
@@ -82,9 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function placeBet(amount) {
         if (credit >= amount) {
-            lastBet = amount;
-            points += amount; // Update points based on bet
-            updateDisplay();
+            lastBet = amount; // Set the last bet to this amount
+            points += amount; // Points are updated based on bet
+            updateDisplay(); // Update display including bet information
         } else {
             alert("Not enough credit to place bet");
         }
