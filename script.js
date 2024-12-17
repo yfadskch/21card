@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     let deck, playerHand, dealerHand, playerName;
     let credit = 500, points = 0, bet = 0;
 
@@ -17,46 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
         updateStats();
     }
 
-    function createDeck() {
-        const suits = ['♠', '♥', '♣', '♦'];
-        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-        let deck = [];
-        suits.forEach(suit => {
-            values.forEach(value => {
-                deck.push(value + suit);
-            });
-        });
-        return shuffle(deck);
-    }
-
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    function dealCard() {
-        return deck.pop();
-    }
-
-    function displayCards(hand, elementId) {
-        const handDiv = document.getElementById(elementId);
-        handDiv.innerHTML = hand.join(' ');
-    }
-
-    function updateStats() {
-        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
-        document.getElementById('pointDisplay').textContent = `Point: ${points}`;
-        document.getElementById('betDisplay').textContent = `Bet: ${bet}`;
-    }
-
     document.querySelectorAll('.chip').forEach(button => {
         button.addEventListener('click', function() {
-            if (bet === 0) {
+            if (bet === 0) { // Ensure bet can only be placed once
                 bet = parseInt(this.dataset.amount);
-                points += bet / 2; // Gain points as half the bet
+                credit -= bet; // Deduct bet from credit immediately
                 updateStats();
             }
         });
@@ -94,15 +59,13 @@ document.addEventListener('DOMContentLoaded', function () {
         let dealerScore = calculateScore(dealerHand);
         if (playerScore > 21) {
             alert(`${playerName} busts.`);
-            credit -= bet;
         } else if (dealerScore > 21 || playerScore > dealerScore) {
             alert(`${playerName} wins!`);
-            credit += bet * 2;
+            credit += bet; // Win, add bet to credit
         } else if (dealerScore >= playerScore) {
             alert('Dealer wins.');
-            credit -= bet;
         }
-        points += bet / 2; // Gain points as half the bet
+        points += bet / 2; // Points are added only once at the end of the game
         bet = 0; // Reset bet for next round
         startGame(); // Restart the game
     }
@@ -125,4 +88,39 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         updateStats();
     });
+
+    function updateStats() {
+        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+        document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+        document.getElementById('betDisplay').textContent = `Bet: ${bet}`;
+    }
+
+    function createDeck() {
+        const suits = ['♠', '♥', '♣', '♦'];
+        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        let deck = [];
+        suits.forEach(suit => {
+            values.forEach(value => {
+                deck.push(value + suit);
+            });
+        });
+        return shuffle(deck);
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function dealCard() {
+        return deck.pop();
+    }
+
+    function displayCards(hand, elementId) {
+        const handDiv = document.getElementById(elementId);
+        handDiv.innerHTML = hand.join(' ');
+    }
 });
