@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     let deck, playerHand, dealerHand, playerName = 'Player';
-    let credit = 500, points = 0, lastBet = 0;
+    let credit = 500, points = 0, bet = 0;
 
     document.getElementById('startGameBtn').addEventListener('click', function() {
         playerName = document.getElementById('playerName').value.trim() || 'Player';
@@ -15,9 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
         playerHand = [dealCard(), dealCard()];
         dealerHand = [dealCard(), dealCard()];
         updateDisplay();
-        if (lastBet > 0 && credit >= lastBet) { // Reuse last bet if possible
-            placeBet(lastBet);
-        }
     }
 
     function createDeck() {
@@ -49,24 +46,22 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('playerCards').textContent = playerHand.join(' ');
         document.getElementById('creditDisplay').textContent = 'Credit: ' + credit;
         document.getElementById('pointDisplay').textContent = 'Point: ' + points;
-        document.getElementById('betDisplay').textContent = 'Bet: ' + lastBet;
+        document.getElementById('betDisplay').textContent = 'Bet: ' + bet;
     }
 
     document.querySelectorAll('.chip').forEach(button => {
         button.addEventListener('click', function() {
-            placeBet(parseInt(this.dataset.amount));
+            if (bet === 0) { // Ensure only one bet per round
+                bet = parseInt(this.dataset.amount);
+                if (credit >= bet) {
+                    credit -= bet;
+                    updateDisplay();
+                } else {
+                    alert("Not enough credit to place bet");
+                }
+            }
         });
     });
-
-    function placeBet(amount) {
-        if (credit >= amount) {
-            lastBet = amount; // Set the last bet to this amount
-            points += amount; // Points are updated based on bet
-            updateDisplay(); // Update display including bet information
-        } else {
-            alert("Not enough credit to place bet");
-        }
-    }
 
     document.getElementById('hitBtn').addEventListener('click', function() {
         playerHand.push(dealCard());
@@ -115,6 +110,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         playerHand = [dealCard(), dealCard()];
         dealerHand = [dealCard(), dealCard()];
+        bet = 0; // Reset bet to allow new selection
         updateDisplay();
     }
+
+    document.getElementById('claimRewardBtn').addEventListener('click', function() {
+        let rewardMessage = '';
+        if (points >= 3000) {
+            credit += 888;
+            points -= 3000;
+            rewardMessage = 'You redeemed 3000 Points for Free $8.88!';
+        } else if (points >= 1000) {
+            credit += 100;
+            points -= 1000;
+            rewardMessage = 'You redeemed 1000 Points for Welcome Bonus!';
+        } else if (points >= 200) {
+            credit += 200;
+            points -= 200;
+            rewardMessage = 'You redeemed 200 Points for +200 Balance!';
+        } else {
+            rewardMessage = 'Not enough points to redeem any reward.';
+        }
+        alert(rewardMessage);
+        updateDisplay();
+    });
 });
