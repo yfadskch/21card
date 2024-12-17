@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let deck, playerHand, dealerHand, playerName = 'Player', currentBet = 0;
     let credit = 500, points = 0, bet = 0;
 
+    document.getElementById('startGameBtn').addEventListener('click', setPlayerName);
+
     function setPlayerName() {
         playerName = document.getElementById('playerName').value.trim() || 'Player';
         document.getElementById('playerLabel').textContent = `${playerName}'s Hand`;
@@ -55,22 +57,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function calculateScore(hand) {
-        return hand.reduce((total, card) => total + (card.value === 'A' ? 11 : isNaN(card.value) ? 10 : parseInt(card.value)), 0);
+        return hand.reduce((total, card) => {
+            let value = card.value;
+            if (value === 'A') {
+                return total + 11;
+            } else if (['J', 'Q', 'K'].includes(value)) {
+                return total + 10;
+            }
+            return total + parseInt(value);
+        }, 0);
     }
 
-    function openRewardModal() {
-        alert('Claim your rewards here!');
-    }
-
-    // Setup event listeners
-    document.getElementById('startGameBtn').addEventListener('click', setPlayerName);
     document.querySelectorAll('.chip').forEach(button => button.addEventListener('click', function() { selectChip(parseInt(this.getAttribute('data-amount'))); }));
     document.getElementById('hitBtn').addEventListener('click', hit);
     document.getElementById('standBtn').addEventListener('click', stand);
     document.getElementById('rewardBtn').addEventListener('click', openRewardModal);
 
     function selectChip(amount) {
-        currentBet = amount;
+        bet = amount;
         updateGameStatus();
     }
 
@@ -90,10 +94,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function checkForEndOfGame() {
         const playerScore = calculateScore(playerHand);
+        const dealerScore = calculateScore(dealerHand);
         if (playerScore > 21) {
             alert(`${playerName} has busted!`);
-        } else {
-            alert("The game continues, make your next move.");
+        } else if (dealerScore > 21) {
+            alert('Dealer has busted!');
+        } else if (playerScore >= 17 && dealerScore >= 17) {
+            if (playerScore > dealerScore) {
+                alert(`${playerName} wins!`);
+            } else if (playerScore < dealerScore) {
+                alert('Dealer wins!');
+            } else {
+                alert('It is a tie!');
+            }
         }
+    }
+
+    function openRewardModal() {
+        alert('Claim your rewards here!');
     }
 });
