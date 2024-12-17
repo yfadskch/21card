@@ -1,37 +1,51 @@
-/* Existing styles... */
+let deck, playerHand, dealerHand, playerName = 'Player', currentBet = 0;
+let credit = 500, points = 0;
+let gameRecords = [];
 
-.modal {
-    position: fixed;
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+function setPlayerName() {
+    const nameInput = document.getElementById('playerName').value.trim();
+    playerName = nameInput || 'Player';
+    document.getElementById('playerLabel').textContent = `${playerName}'s Hand`;
+    document.getElementById('playerNameContainer').style.display = 'none';
+    document.getElementById('gameRules').style.display = 'block';
+    document.getElementById('gameBoard').style.display = 'block';
+    document.getElementById('statusContainer').style.display = 'block';
+    document.getElementById('chipContainer').style.display = 'block';
+    document.getElementById('actionButtons').style.display = 'block';
+    document.getElementById('extraFeatures').style.display = 'block';
+    startGame();
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+function startGame() {
+    // Implement game start logic
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+function hit() {
+    // Implement game hit logic
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+function stand() {
+    // Implement game stand logic
 }
 
-/* Continued existing styles... */
+function selectChip(amount) {
+    currentBet = amount;
+    document.getElementById('betDisplay').textContent = `Bet: ${amount}`;
+}
+
+function redeemReward(points, reward) {
+    if (points <= credit) {
+        credit -= points;
+        alert(`You redeemed ${points} points for ${reward}`);
+    } else {
+        alert("Not enough points.");
+    }
+}
+
+function openRewardModal() {
+    document.getElementById('rewardModal').style.display = 'block';
+}
+
+function closeRewardModal() {
+    document.getElementById('rewardModal').style.display = 'none';
+}
