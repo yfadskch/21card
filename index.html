@@ -16,19 +16,6 @@
     </div>
 
     <div id="gameBoard" style="display:none;">
-        <div id="chipContainer">
-            <button class="chip" data-amount="50">50</button>
-            <button class="chip" data-amount="100">100</button>
-            <button class="chip" data-amount="200">200</button>
-        </div>
-        <div id="actionButtons">
-            <button id="hitBtn">Hit</button>
-            <button id="standBtn">Stand</button>
-        </div>
-        <div id="rewardContainer">
-            <button id="rewardBtn">Claim Reward</button>
-            <a href="https://heylink.me/klking88/" target="_blank" id="freeCreditLink">Free Credit Tanpa Deposit</a>
-        </div>
         <div id="dealerHand">
             <h3>Dealer's Hand</h3>
             <div id="dealerCards"></div>
@@ -37,6 +24,22 @@
             <h3 id="playerLabel">Player's Hand</h3>
             <div id="playerCards"></div>
         </div>
+
+        <!-- Control buttons below the player's cards -->
+        <div id="controlPanel">
+            <div id="chipContainer">
+                <button class="chip" data-amount="50">50</button>
+                <button class="chip" data-amount="100">100</button>
+                <button class="chip" data-amount="200">200</button>
+            </div>
+            <div id="actionButtons">
+                <button id="hitBtn">Hit</button>
+                <button id="standBtn">Stand</button>
+            </div>
+            <button id="rewardBtn">Claim Reward</button>
+            <a href="https://heylink.me/klking88/" target="_blank" id="freeCreditLink">Free Credit Tanpa Deposit</a>
+        </div>
+        
         <p id="creditDisplay">Credit: 500</p>
         <p id="pointDisplay">Point: 0</p>
         <p id="betDisplay">Bet: 0</p>

@@ -1,116 +1,66 @@
-document.addEventListener('DOMContentLoaded', function () {
-    let deck, playerHand, dealerHand, playerName = 'Player', currentBet = 0;
-    let credit = 500, points = 0, bet = 0;
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #282c34;
+    color: white;
+}
 
-    document.getElementById('startGameBtn').addEventListener('click', setPlayerName);
+#gameBoard {
+    margin: 20px auto;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    width: 350px;
+    border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    function setPlayerName() {
-        playerName = document.getElementById('playerName').value.trim() || 'Player';
-        document.getElementById('playerLabel').textContent = `${playerName}'s Hand`;
-        document.getElementById('playerNameContainer').style.display = 'none';
-        document.getElementById('gameBoard').style.display = 'block';
-        startGame();
-    }
+#chipContainer, #actionButtons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
 
-    function startGame() {
-        deck = createDeck();
-        playerHand = [dealCard(), dealCard()];
-        dealerHand = [dealCard(), dealCard()];
-        displayHand(playerHand, 'playerCards');
-        displayHand(dealerHand, 'dealerCards', false);
-        updateGameStatus();
-    }
+#controlPanel {
+    margin-top: 10px;
+}
 
-    function createDeck() {
-        const suits = ['♠', '♥', '♣', '♦'];
-        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-        const deck = [];
-        suits.forEach(suit => {
-            values.forEach(value => {
-                deck.push({value, suit});
-            });
-        });
-        return deck.sort(() => Math.random() - 0.5);
-    }
+.card {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    background-color: #FFF;
+    color: #333;
+    font-size: 16px;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
 
-    function dealCard() {
-        return deck.pop();
-    }
+.chip, #hitBtn, #standBtn, #rewardBtn {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
-    function displayHand(hand, containerId, showAll = true) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        hand.forEach((card, index) => {
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'card';
-            cardDiv.textContent = showAll || index === 0 ? `${card.value}${card.suit}` : '??';
-            container.appendChild(cardDiv);
-        });
-    }
+.chip:hover, #hitBtn:hover, #standBtn:hover, #rewardBtn:hover {
+    background-color: #45a049;
+}
 
-    function updateGameStatus() {
-        document.getElementById('dealerScore').textContent = `Score: ${calculateScore(dealerHand.slice(0, 1))}`;
-        document.getElementById('playerScore').textContent = `Score: ${calculateScore(playerHand)}`;
-        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
-        document.getElementById('pointDisplay').textContent = `Point: ${points}`;
-        document.getElementById('betDisplay').textContent = `Bet: ${bet}`;
-    }
+#freeCreditLink {
+    color: #00FF00;
+    text-decoration: none;
+    margin-top: 10px;
+}
 
-    function calculateScore(hand) {
-        return hand.reduce((total, card) => {
-            let value = card.value;
-            if (value === 'A') {
-                return total + 11;
-            } else if (['J', 'Q', 'K'].includes(value)) {
-                return total + 10;
-            }
-            return total + parseInt(value);
-        }, 0);
-    }
-
-    document.querySelectorAll('.chip').forEach(button => button.addEventListener('click', function() { selectChip(parseInt(this.getAttribute('data-amount'))); }));
-    document.getElementById('hitBtn').addEventListener('click', hit);
-    document.getElementById('standBtn').addEventListener('click', stand);
-    document.getElementById('rewardBtn').addEventListener('click', openRewardModal);
-
-    function selectChip(amount) {
-        bet = amount;
-        updateGameStatus();
-    }
-
-    function hit() {
-        playerHand.push(dealCard());
-        displayHand(playerHand, 'playerCards');
-        checkForEndOfGame();
-    }
-
-    function stand() {
-        while (calculateScore(dealerHand) < 17) {
-            dealerHand.push(dealCard());
-        }
-        displayHand(dealerHand, 'dealerCards', true);
-        checkForEndOfGame();
-    }
-
-    function checkForEndOfGame() {
-        const playerScore = calculateScore(playerHand);
-        const dealerScore = calculateScore(dealerHand);
-        if (playerScore > 21) {
-            alert(`${playerName} has busted!`);
-        } else if (dealerScore > 21) {
-            alert('Dealer has busted!');
-        } else if (playerScore >= 17 && dealerScore >= 17) {
-            if (playerScore > dealerScore) {
-                alert(`${playerName} wins!`);
-            } else if (playerScore < dealerScore) {
-                alert('Dealer wins!');
-            } else {
-                alert('It is a tie!');
-            }
-        }
-    }
-
-    function openRewardModal() {
-        alert('Claim your rewards here!');
-    }
-});
+#freeCreditLink:hover {
+    text-decoration: underline;
+}
