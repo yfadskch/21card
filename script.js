@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let deck, playerHand, dealerHand, playerName = 'Player';
+    let deck, playerHand, dealerHand, playerName;
     let credit = 500, points = 0, bet = 0;
 
     document.getElementById('startGameBtn').addEventListener('click', function() {
-        playerName = document.getElementById('playerName').value.trim() || 'Player';
-        document.getElementById('playerLabel').textContent = playerName + "'s Hand";
-        document.getElementById('playerNameContainer').style.display = 'none';
+        playerName = document.getElementById('playerName').value || 'Player';
         document.getElementById('gameBoard').style.display = 'block';
         startGame();
     });
@@ -14,7 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
         deck = createDeck();
         playerHand = [dealCard(), dealCard()];
         dealerHand = [dealCard(), dealCard()];
-        updateDisplay();
+        displayCards(playerHand, 'playerCards');
+        displayCards(dealerHand, 'dealerCards');
+        updateStats();
     }
 
     function createDeck() {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
+            let j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
@@ -41,31 +41,30 @@ document.addEventListener('DOMContentLoaded', function () {
         return deck.pop();
     }
 
-    function updateDisplay() {
-        document.getElementById('dealerCards').textContent = dealerHand.map((card, index) => index === 1 ? '??' : card).join(' ');
-        document.getElementById('playerCards').textContent = playerHand.join(' ');
-        document.getElementById('creditDisplay').textContent = 'Credit: ' + credit;
-        document.getElementById('pointDisplay').textContent = 'Point: ' + points;
-        document.getElementById('betDisplay').textContent = 'Bet: ' + bet;
+    function displayCards(hand, elementId) {
+        const handDiv = document.getElementById(elementId);
+        handDiv.innerHTML = hand.join(' ');
+    }
+
+    function updateStats() {
+        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+        document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+        document.getElementById('betDisplay').textContent = `Bet: ${bet}`;
     }
 
     document.querySelectorAll('.chip').forEach(button => {
         button.addEventListener('click', function() {
-            if (bet === 0) { // Ensure only one bet per round
+            if (bet === 0) {
                 bet = parseInt(this.dataset.amount);
-                if (credit >= bet) {
-                    credit -= bet;
-                    updateDisplay();
-                } else {
-                    alert("Not enough credit to place bet");
-                }
+                points += bet / 2; // Gain points as half the bet
+                updateStats();
             }
         });
     });
 
     document.getElementById('hitBtn').addEventListener('click', function() {
         playerHand.push(dealCard());
-        updateDisplay();
+        displayCards(playerHand, 'playerCards');
         checkEndGame();
     });
 
@@ -73,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         while (calculateScore(dealerHand) < 17) {
             dealerHand.push(dealCard());
         }
-        updateDisplay();
+        displayCards(dealerHand, 'dealerCards');
         checkEndGame();
     });
 
@@ -93,45 +92,37 @@ document.addEventListener('DOMContentLoaded', function () {
     function checkEndGame() {
         let playerScore = calculateScore(playerHand);
         let dealerScore = calculateScore(dealerHand);
-        if (playerScore > 21 || dealerScore > 21) {
-            let result = playerScore > 21 ? 'Player busts' : 'Dealer busts';
-            alert(result);
-            resetGame();
-        } else if (dealerScore >= 17 && playerScore > dealerScore) {
-            let result = playerScore > dealerScore ? 'Player wins' : 'Dealer wins';
-            alert(result);
-            resetGame();
+        if (playerScore > 21) {
+            alert(`${playerName} busts.`);
+            credit -= bet;
+        } else if (dealerScore > 21 || playerScore > dealerScore) {
+            alert(`${playerName} wins!`);
+            credit += bet * 2;
+        } else if (dealerScore >= playerScore) {
+            alert('Dealer wins.');
+            credit -= bet;
         }
-    }
-
-    function resetGame() {
-        if (deck.length < 20) { // Reshuffle the deck if low
-            deck = createDeck();
-        }
-        playerHand = [dealCard(), dealCard()];
-        dealerHand = [dealCard(), dealCard()];
-        bet = 0; // Reset bet to allow new selection
-        updateDisplay();
+        points += bet / 2; // Gain points as half the bet
+        bet = 0; // Reset bet for next round
+        startGame(); // Restart the game
     }
 
     document.getElementById('claimRewardBtn').addEventListener('click', function() {
-        let rewardMessage = '';
         if (points >= 3000) {
             credit += 888;
             points -= 3000;
-            rewardMessage = 'You redeemed 3000 Points for Free $8.88!';
+            alert('You redeemed 3000 Points for Free $8.88!');
         } else if (points >= 1000) {
             credit += 100;
             points -= 1000;
-            rewardMessage = 'You redeemed 1000 Points for Welcome Bonus!';
+            alert('You redeemed 1000 Points for Welcome Bonus!');
         } else if (points >= 200) {
             credit += 200;
             points -= 200;
-            rewardMessage = 'You redeemed 200 Points for +200 Balance!';
+            alert('You redeemed 200 Points for +200 Balance!');
         } else {
-            rewardMessage = 'Not enough points to redeem any reward.';
+            alert('Not enough points to redeem any reward.');
         }
-        alert(rewardMessage);
-        updateDisplay();
+        updateStats();
     });
 });
