@@ -1,42 +1,126 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let credit = 500, points = 0, lastBet = 0;
-    let playerName = '';
-    let playerNameInput = document.getElementById('playerName');
-    let startGameBtn = document.getElementById('startGameBtn');
-    let gameBoard = document.getElementById('gameBoard');
+    let deck, playerHand, dealerHand, playerName;
+    let credit = 500, points = 0, bet = 0;
 
-    startGameBtn.addEventListener('click', function() {
-        playerName = playerNameInput.value || 'Player';
-        playerNameInput.disabled = true; // 禁用名字输入
-        startGameBtn.style.display = 'none'; // 隐藏开始按钮
-        gameBoard.style.display = 'block'; // 显示游戏界面
+    document.getElementById('startGameBtn').addEventListener('click', function() {
+        playerName = document.getElementById('playerName').value || 'Player';
+        document.getElementById('gameBoard').style.display = 'block';
         startGame();
     });
 
+    function startGame() {
+        deck = createDeck();
+        playerHand = [dealCard(), dealCard()];
+        dealerHand = [dealCard(), dealCard()];
+        displayCards(playerHand, 'playerCards');
+        displayCards(dealerHand, 'dealerCards');
+        updateStats();
+    }
+
     document.querySelectorAll('.chip').forEach(button => {
         button.addEventListener('click', function() {
-            let bet = parseInt(this.getAttribute('data-amount'));
-            if (lastBet !== bet) {
-                lastBet = bet; // 记录最后一次的投注额
-                updateBet(bet); // 更新投注额
+            if (bet === 0) { // Ensure bet can only be placed once
+                bet = parseInt(this.dataset.amount);
+                credit -= bet; // Deduct bet from credit immediately
+                updateStats();
             }
         });
     });
 
-    function startGame() {
-        // 游戏初始化逻辑，可以在此处添加
-        updateDisplays();
+    document.getElementById('hitBtn').addEventListener('click', function() {
+        playerHand.push(dealCard());
+        displayCards(playerHand, 'playerCards');
+        checkEndGame();
+    });
+
+    document.getElementById('standBtn').addEventListener('click', function() {
+        while (calculateScore(dealerHand) < 17) {
+            dealerHand.push(dealCard());
+        }
+        displayCards(dealerHand, 'dealerCards');
+        checkEndGame();
+    });
+
+    function calculateScore(hand) {
+        let score = hand.reduce((score, card) => {
+            let value = card[0];
+            if ('JQK'.includes(value)) {
+                return score + 10;
+            } else if (value === 'A') {
+                return score + 11 > 21 ? score + 1 : score + 11;
+            }
+            return score + parseInt(value);
+        }, 0);
+        return score;
     }
 
-    function updateBet(bet) {
-        credit -= bet;
-        points += bet / 2; // 增加积分，根据您的游戏规则调整
-        updateDisplays();
+    function checkEndGame() {
+        let playerScore = calculateScore(playerHand);
+        let dealerScore = calculateScore(dealerHand);
+        if (playerScore > 21) {
+            alert(`${playerName} busts.`);
+        } else if (dealerScore > 21 || playerScore > dealerScore) {
+            alert(`${playerName} wins!`);
+            credit += bet; // Win, add bet to credit
+        } else if (dealerScore >= playerScore) {
+            alert('Dealer wins.');
+        }
+        points += bet / 2; // Points are added only once at the end of the game
+        bet = 0; // Reset bet for next round
+        startGame(); // Restart the game
     }
 
-    function updateDisplays() {
+    document.getElementById('claimRewardBtn').addEventListener('click', function() {
+        if (points >= 3000) {
+            credit += 888;
+            points -= 3000;
+            alert('You redeemed 3000 Points for Free $8.88!');
+        } else if (points >= 1000) {
+            credit += 100;
+            points -= 1000;
+            alert('You redeemed 1000 Points for Welcome Bonus!');
+        } else if (points >= 200) {
+            credit += 200;
+            points -= 200;
+            alert('You redeemed 200 Points for +200 Balance!');
+        } else {
+            alert('Not enough points to redeem any reward.');
+        }
+        updateStats();
+    });
+
+    function updateStats() {
         document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
-        document.getElementById('pointDisplay').textContent = `Points: ${points}`;
-        document.getElementById('betDisplay').textContent = `Bet: ${lastBet}`;
+        document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+        document.getElementById('betDisplay').textContent = `Bet: ${bet}`;
+    }
+
+    function createDeck() {
+        const suits = ['♠', '♥', '♣', '♦'];
+        const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        let deck = [];
+        suits.forEach(suit => {
+            values.forEach(value => {
+                deck.push(value + suit);
+            });
+        });
+        return shuffle(deck);
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function dealCard() {
+        return deck.pop();
+    }
+
+    function displayCards(hand, elementId) {
+        const handDiv = document.getElementById(elementId);
+        handDiv.innerHTML = hand.join(' ');
     }
 });
