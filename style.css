@@ -1,10 +1,7 @@
 body, html {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-image: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ200cTdzdXN5NzI1aWpxNm4zenlnNXgydnZsdzM5YnloeXF3ejQ4bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xytwrhaA1JSbBtgxew/giphy.gif'); /* 设置背景图像 */
-    background-size: cover; /* 覆盖整个页面 */
-    background-position: center; /* 中心对齐背景图像 */
-    background-repeat: no-repeat; /* 不重复背景图像 */
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -14,7 +11,7 @@ body, html {
 }
 
 #gameBoard {
-    background-color: rgba(255, 255, 255, 0.8); /* 透明背景 */
+    background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -50,7 +47,7 @@ body, html {
 
 a {
     color: #0077cc;
-    display:block;
+    display: block;
     margin-top: 10px;
 }
 

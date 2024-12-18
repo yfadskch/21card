@@ -20,11 +20,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function createDeck() {
-        // 创建一副卡牌
+        let suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+        let values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+        let deck = [];
+        for (let suit of suits) {
+            for (let value of values) {
+                deck.push(value + '_of_' + suit);
+            }
+        }
+        return deck;
     }
 
     function dealCard() {
-        // 发牌逻辑
+        if (deck.length > 0) {
+            let cardIndex = Math.floor(Math.random() * deck.length);
+            return deck.splice(cardIndex, 1)[0];
+        }
+        return null;
     }
 
     function displayCards(cards, elementId) {
@@ -33,12 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
         cards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url('path/to/card/images/${card}.png')`;
+            cardElement.style.backgroundImage = `url('${card}.png')`;
             container.appendChild(cardElement);
         });
     }
 
     function updateStats() {
-        // 更新统计信息
+        document.getElementById('creditDisplay').textContent = `Credit: ${credit}`;
+        document.getElementById('pointDisplay').textContent = `Point: ${points}`;
+        document.getElementById('betDisplay').textContent = `Bet: ${bet}`;
     }
 });
