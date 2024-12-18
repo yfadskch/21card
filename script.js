@@ -49,10 +49,9 @@ function placeBet(amount) {
 }
 
 function deal() {
-    if (bet === 0) return alert('Please place a bet first!');
     initializeDeck();
     playerCards = [drawCard(), drawCard()];
-    dealerCards = [drawCard(), { value: '?', suit: '?' }]; // 第二张隐藏
+    dealerCards = [drawCard(), { value: '?', suit: '?' }];
     playerScore = calculateScore(playerCards);
     updateUI();
 }
@@ -69,4 +68,18 @@ function chooseReward() {
     let choice = prompt("Choose a reward:\n1. 200 Points: +200 Balance\n2. 1000 Points: Welcome Bonus %\n3. 3000 Points: Free 8.88");
     alert(`You chose: ${choice}`);
 }
-document.getElementById('deal').addEventListener('click', deal);
+
+// 事件监听
+document.getElementById('hit').addEventListener('click', () => {
+    playerCards.push(drawCard());
+    playerScore = calculateScore(playerCards);
+    updateUI();
+});
+
+document.getElementById('stand').addEventListener('click', () => {
+    dealerCards[1] = drawCard();
+    dealerScore = calculateScore(dealerCards);
+    document.getElementById('dealer-score').textContent = `Score: ${dealerScore}`;
+    updateUI();
+    alert(playerScore > dealerScore ? "Player Wins!" : "Dealer Wins!");
+});

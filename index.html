@@ -25,7 +25,7 @@
             <p id="player-score">Score: 0</p>
         </div>
 
-        <!-- Credit, Bet 和 Point 信息 -->
+        <!-- Credit, Bet 和 Point -->
         <div class="game-stats">
             <p>Credit: <span id="credit">500</span></p>
             <p>Bet: <span id="bet">0</span></p>
@@ -34,32 +34,31 @@
 
         <!-- 按钮区域 -->
         <div class="controls">
-            <!-- 第一排：筹码按钮 -->
+            <!-- 第1排：筹码选择 -->
             <div class="bet-buttons">
                 <button onclick="placeBet(50)">50</button>
                 <button onclick="placeBet(100)">100</button>
                 <button onclick="placeBet(200)">200</button>
             </div>
 
-            <!-- 第二排：操作按钮 -->
+            <!-- 第2排：操作按钮 -->
             <div class="game-buttons">
-                <button id="deal">Deal</button>
                 <button id="hit">Hit</button>
                 <button id="stand">Stand</button>
             </div>
 
-            <!-- 第三排：Reward -->
+            <!-- 第3排：Reward 按钮 -->
             <div class="reward">
                 <button onclick="chooseReward()">Reward</button>
             </div>
 
-            <!-- 第四排：超链接 -->
+            <!-- 第4排：Free Credit 超链接 -->
             <div class="free-credit">
                 <a href="https://heylink.me/klking88" target="_blank">Free Credit Tanpa Deposit</a>
             </div>
         </div>
 
-        <!-- Game Record 区域 -->
+        <!-- Game Record -->
         <div id="game-record" class="game-record">
             <h3>Game Record</h3>
             <div id="record-container" class="record-container"></div>
