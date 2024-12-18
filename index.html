@@ -3,36 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title>21点扑克牌游戏</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="playerNameContainer">
-        <label for="playerName">Enter your name:</label>
-        <input type="text" id="playerName" placeholder="Player Name">
-        <button id="startGameBtn">Start Game</button>
-    </div>
-    <div id="gameBoard" style="display:none;">
-        <h2 id="displayPlayerName"></h2>
-        <div id="dealerHand" class="hand">
-            <h3>Dealer's Hand</h3>
-            <div class="cards"></div>
-        </div>
-        <div id="playerHand" class="hand">
-            <h3>Player's Hand</h3>
-            <div class="cards"></div>
-        </div>
-        <div id="actions">
-            <button onclick="hit()">Hit</button>
-            <button onclick="stand()">Stand</button>
-        </div>
-        <div id="stats">
-            <p id="creditDisplay">Credit: 500</p>
-            <p id="pointDisplay">Point: 0</p>
-            <p id="betDisplay">Bet: 0</p>
-        </div>
-    </div>
+    <div class="game-container">
+        <h1>21点扑克牌游戏</h1>
 
+        <!-- Credit, Bet, Point 信息显示 -->
+        <div class="game-stats">
+            <p>Credit: <span id="credit">500</span></p>
+            <p>Bet: <span id="bet">0</span></p>
+            <p>Point: <span id="point">0</span></p>
+        </div>
+
+        <!-- 下注按钮 -->
+        <div class="bet-controls">
+            <button onclick="placeBet(50)">Bet 50</button>
+            <button onclick="placeBet(100)">Bet 100</button>
+            <button onclick="placeBet(200)">Bet 200</button>
+        </div>
+
+        <!-- 控制按钮 -->
+        <div class="controls">
+            <button id="deal">发牌</button>
+            <button id="hit">要牌</button>
+            <button id="stand">停牌</button>
+        </div>
+
+        <!-- 游戏桌面 -->
+        <div class="game-table">
+            <div class="player">
+                <h2>玩家</h2>
+                <div id="player-cards" class="cards"></div>
+                <p id="player-score">得分: 0</p>
+            </div>
+            <div class="dealer">
+                <h2>庄家</h2>
+                <div id="dealer-cards" class="cards"></div>
+                <p id="dealer-score">得分: 0</p>
+            </div>
+        </div>
+
+        <!-- 游戏结果和记录 -->
+        <p id="result" class="result"></p>
+        <div id="game-record" class="game-record">
+            <h3>游戏记录</h3>
+            <div id="record-container" class="record-container"></div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
