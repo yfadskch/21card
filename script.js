@@ -52,14 +52,14 @@ function placeBet(amount) {
         bet = amount;
         document.getElementById('bet').textContent = bet;
     } else {
-        alert('信用不足！');
+        alert('Not enough credit!');
     }
 }
 
-// 发牌
+// 发牌功能
 function deal() {
     if (bet === 0) {
-        alert('请选择下注金额！');
+        alert('Please place a bet first!');
         return;
     }
     initializeDeck();
@@ -74,40 +74,13 @@ function deal() {
 function updateUI() {
     document.getElementById('player-cards').innerHTML = playerCards.map(c => `<div class="card">${c.value}${c.suit}</div>`).join('');
     document.getElementById('dealer-cards').innerHTML = dealerCards.map(c => `<div class="card">${c.value}${c.suit}</div>`).join('');
-    document.getElementById('player-score').textContent = `得分: ${playerScore}`;
-    document.getElementById('dealer-score').textContent = `得分: ${dealerScore}`;
+    document.getElementById('player-score').textContent = `Score: ${playerScore}`;
+    document.getElementById('dealer-score').textContent = `Score: ${dealerScore}`;
     document.getElementById('credit').textContent = credit;
     document.getElementById('point').textContent = points;
 }
 
-// 结束游戏
-function stand() {
-    while (dealerScore < 17) {
-        dealerCards.push(drawCard());
-        dealerScore = calculateScore(dealerCards);
-    }
-    let winner = '';
-    if (dealerScore > 21 || playerScore > dealerScore) winner = 'player';
-    else if (playerScore < dealerScore) winner = 'dealer';
-    else winner = 'tie';
-
-    updateGameRecord(winner);
-    credit -= bet;
-    points += bet / 2;
-    bet = 0;
-    updateUI();
-}
-
-// 记录游戏结果
-function updateGameRecord(winner) {
-    if (gameRecord.length === 10) gameRecord.shift();
-    const recordContainer = document.getElementById('record-container');
-    const newRecord = document.createElement('div');
-    newRecord.classList.add('record', winner === 'player' ? 'blue' : winner === 'dealer' ? 'red' : 'green');
-    recordContainer.appendChild(newRecord);
-}
-
 // 事件监听
 document.getElementById('deal').addEventListener('click', deal);
-document.getElementById('hit').addEventListener('click', () => alert('要牌功能待完善！'));
-document.getElementById('stand').addEventListener('click', stand);
+document.getElementById('hit').addEventListener('click', () => alert('Hit functionality coming soon!'));
+document.getElementById('stand').addEventListener('click', () => alert('Stand functionality coming soon!'));
