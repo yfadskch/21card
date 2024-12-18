@@ -106,3 +106,8 @@ function updateGameRecord(winner) {
     newRecord.classList.add('record', winner === 'player' ? 'blue' : winner === 'dealer' ? 'red' : 'green');
     recordContainer.appendChild(newRecord);
 }
+
+// 事件监听
+document.getElementById('deal').addEventListener('click', deal);
+document.getElementById('hit').addEventListener('click', () => alert('要牌功能待完善！'));
+document.getElementById('stand').addEventListener('click', stand);
