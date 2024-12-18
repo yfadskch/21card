@@ -18,10 +18,17 @@ body, html {
     display: none;
 }
 
-#dealerCards, #playerCards {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin: 10px 0;
+.card-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.card {
+    background-size: cover;
+    width: 100px;
+    height: 140px;
+    margin: 5px;
 }
 
 .chip {

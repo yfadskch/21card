@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('startGameBtn').addEventListener('click', function() {
         playerName = document.getElementById('playerName').value || 'Player';
-        document.getElementById('playerNameContainer').style.display = 'none'; // 隐藏输入名字区域
+        document.getElementById('playerNameContainer').style.display = 'none';
         document.getElementById('gameBoard').style.display = 'block';
-        document.getElementById('displayPlayerName').textContent = playerName; // 显示玩家名字
+        document.getElementById('displayPlayerName').textContent = playerName;
         startGame();
     });
 
@@ -19,5 +19,26 @@ document.addEventListener('DOMContentLoaded', function() {
         updateStats();
     }
 
-    // 以下省略了其他现有的函数实现，如 dealCard, displayCards 等，因为这些代码并未更改。
+    function createDeck() {
+        // 创建一副卡牌
+    }
+
+    function dealCard() {
+        // 发牌逻辑
+    }
+
+    function displayCards(cards, elementId) {
+        const container = document.getElementById(elementId);
+        container.innerHTML = '';
+        cards.forEach(card => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card';
+            cardElement.style.backgroundImage = `url('path/to/card/images/${card}.png')`;
+            container.appendChild(cardElement);
+        });
+    }
+
+    function updateStats() {
+        // 更新统计信息
+    }
 });
