@@ -8,47 +8,58 @@
 </head>
 <body>
     <div class="game-container">
-        <!-- Game Title -->
+        <!-- 游戏标题 -->
         <h1>Blackjack Game</h1>
 
-        <!-- Dealer Section -->
+        <!-- Dealer 区域 -->
         <div class="dealer">
             <h2>Dealer</h2>
             <div id="dealer-cards" class="cards"></div>
-            <p id="dealer-score">Score: 0</p>
+            <p id="dealer-score">Score: ?</p>
         </div>
 
-        <!-- Player Section -->
+        <!-- Player 区域 -->
         <div class="player">
             <h2>Player</h2>
             <div id="player-cards" class="cards"></div>
             <p id="player-score">Score: 0</p>
         </div>
 
-        <!-- Stats Section -->
+        <!-- Credit, Bet 和 Point 信息 -->
         <div class="game-stats">
             <p>Credit: <span id="credit">500</span></p>
             <p>Bet: <span id="bet">0</span></p>
             <p>Point: <span id="point">0</span></p>
         </div>
 
-        <!-- Button Controls -->
+        <!-- 按钮区域 -->
         <div class="controls">
+            <!-- 第一排：筹码按钮 -->
             <div class="bet-buttons">
-                <button onclick="placeBet(50)">Bet 50</button>
-                <button onclick="placeBet(100)">Bet 100</button>
-                <button onclick="placeBet(200)">Bet 200</button>
+                <button onclick="placeBet(50)">50</button>
+                <button onclick="placeBet(100)">100</button>
+                <button onclick="placeBet(200)">200</button>
             </div>
+
+            <!-- 第二排：操作按钮 -->
             <div class="game-buttons">
                 <button id="deal">Deal</button>
                 <button id="hit">Hit</button>
                 <button id="stand">Stand</button>
-                <button onclick="reward()">Reward</button>
-                <a href="https://heylink.me/klking88" target="_blank" class="free-credit-link">Free Credit Tanpa Deposit</a>
+            </div>
+
+            <!-- 第三排：Reward -->
+            <div class="reward">
+                <button onclick="chooseReward()">Reward</button>
+            </div>
+
+            <!-- 第四排：超链接 -->
+            <div class="free-credit">
+                <a href="https://heylink.me/klking88" target="_blank">Free Credit Tanpa Deposit</a>
             </div>
         </div>
 
-        <!-- Game Record -->
+        <!-- Game Record 区域 -->
         <div id="game-record" class="game-record">
             <h3>Game Record</h3>
             <div id="record-container" class="record-container"></div>

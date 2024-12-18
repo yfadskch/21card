@@ -7,49 +7,8 @@ body {
     padding: 0;
 }
 
-h1 {
-    margin-top: 20px;
-}
-
-h2 {
+h1, h2 {
     margin: 10px 0;
-}
-
-.game-stats p {
-    font-size: 18px;
-    margin: 5px 0;
-}
-
-.controls {
-    margin: 20px 0;
-}
-
-.bet-buttons button,
-.game-buttons button {
-    padding: 10px 20px;
-    margin: 5px;
-    font-size: 16px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-.free-credit-link {
-    display: inline-block;
-    margin: 10px;
-    color: #f39c12;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.free-credit-link:hover {
-    text-decoration: underline;
 }
 
 .cards {
@@ -65,12 +24,44 @@ button:hover {
     margin: 5px;
     border-radius: 5px;
     font-size: 18px;
+    width: 40px;
+    text-align: center;
+}
+
+.game-stats p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.controls {
+    margin: 20px 0;
+}
+
+.controls button, .free-credit a {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.controls button:hover, .free-credit a:hover {
+    background-color: #2980b9;
+}
+
+.free-credit a {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #f1c40f;
 }
 
 .record-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     margin-top: 10px;
 }
 
@@ -81,14 +72,6 @@ button:hover {
     border-radius: 50%;
 }
 
-.red {
-    background-color: red;
-}
-
-.blue {
-    background-color: blue;
-}
-
-.green {
-    background-color: green;
-}
+.red { background-color: red; }
+.blue { background-color: blue; }
+.green { background-color: green; }
