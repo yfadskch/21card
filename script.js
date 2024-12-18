@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let deck = [];
         for (let suit of suits) {
             for (let value of values) {
-                deck.push(value + '_of_' + suit);
+                deck.push(`${value}_of_${suit}`);
             }
         }
         return deck;
