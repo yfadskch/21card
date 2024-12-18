@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poker V1</title>
+    <title>21 Point Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="playerNameContainer">
+        <label for="playerName">Enter your name:</label>
+        <input type="text" id="playerName" placeholder="Player Name">
         <button id="startGameBtn">Start Game</button>
     </div>
 
     <div id="gameBoard" style="display:none;">
-        <h2>Dealer's Hand (<span id="dealerScore">0</span>)</h2>
+        <h2 id="displayPlayerName"></h2> <!-- 添加显示玩家名字的元素 -->
+        <h2>Dealer's Hand</h2>
         <div id="dealerCards"></div>
-        <h2>Player's Hand (<span id="playerScore">0</span>)</h2>
+        <h2>Player's Hand</h2>
         <div id="playerCards"></div>
         <div id="controls">
             <button class="chip" data-amount="50">50</button>
@@ -24,7 +27,7 @@
             <button id="standBtn">Stand</button>
         </div>
         <button id="claimRewardBtn">Claim Reward</button>
-        <p>Free Credit Tanpa Deposit</p>
+        <a href="https://heylink.me/klking88/" target="_blank">Free Credit Tanpa Deposit</a>
         <div id="stats">
             <p id="creditDisplay">Credit: 500</p>
             <p id="pointDisplay">Point: 0</p>
