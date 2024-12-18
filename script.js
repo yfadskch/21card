@@ -7,7 +7,6 @@ let dealerScore = 0;
 let credit = 500;
 let bet = 0;
 let points = 0;
-
 let gameRecord = [];
 
 // 初始化牌堆
@@ -80,7 +79,10 @@ function updateUI() {
     document.getElementById('point').textContent = points;
 }
 
+// Reward 功能 (占位函数)
+function reward() {
+    alert('Reward function coming soon!');
+}
+
 // 事件监听
 document.getElementById('deal').addEventListener('click', deal);
-document.getElementById('hit').addEventListener('click', () => alert('Hit functionality coming soon!'));
-document.getElementById('stand').addEventListener('click', () => alert('Stand functionality coming soon!'));

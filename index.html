@@ -8,43 +8,50 @@
 </head>
 <body>
     <div class="game-container">
+        <!-- Game Title -->
         <h1>Blackjack Game</h1>
 
-        <!-- Dealer -->
+        <!-- Dealer Section -->
         <div class="dealer">
             <h2>Dealer</h2>
             <div id="dealer-cards" class="cards"></div>
             <p id="dealer-score">Score: 0</p>
         </div>
 
-        <!-- Player -->
+        <!-- Player Section -->
         <div class="player">
             <h2>Player</h2>
             <div id="player-cards" class="cards"></div>
             <p id="player-score">Score: 0</p>
         </div>
 
-        <!-- Stats -->
+        <!-- Stats Section -->
         <div class="game-stats">
             <p>Credit: <span id="credit">500</span></p>
             <p>Bet: <span id="bet">0</span></p>
             <p>Point: <span id="point">0</span></p>
         </div>
 
+        <!-- Button Controls -->
+        <div class="controls">
+            <div class="bet-buttons">
+                <button onclick="placeBet(50)">Bet 50</button>
+                <button onclick="placeBet(100)">Bet 100</button>
+                <button onclick="placeBet(200)">Bet 200</button>
+            </div>
+            <div class="game-buttons">
+                <button id="deal">Deal</button>
+                <button id="hit">Hit</button>
+                <button id="stand">Stand</button>
+                <button onclick="reward()">Reward</button>
+                <a href="https://heylink.me/klking88" target="_blank" class="free-credit-link">Free Credit Tanpa Deposit</a>
+            </div>
+        </div>
+
         <!-- Game Record -->
         <div id="game-record" class="game-record">
             <h3>Game Record</h3>
             <div id="record-container" class="record-container"></div>
-        </div>
-
-        <!-- Controls -->
-        <div class="controls">
-            <button onclick="placeBet(50)">Bet 50</button>
-            <button onclick="placeBet(100)">Bet 100</button>
-            <button onclick="placeBet(200)">Bet 200</button>
-            <button id="deal">Deal</button>
-            <button id="hit">Hit</button>
-            <button id="stand">Stand</button>
         </div>
     </div>
     <script src="script.js"></script>

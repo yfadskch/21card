@@ -12,7 +12,7 @@ h1 {
 }
 
 h2 {
-    margin-top: 10px;
+    margin: 10px 0;
 }
 
 .game-stats p {
@@ -20,9 +20,14 @@ h2 {
     margin: 5px 0;
 }
 
-.controls button {
+.controls {
+    margin: 20px 0;
+}
+
+.bet-buttons button,
+.game-buttons button {
     padding: 10px 20px;
-    margin: 10px;
+    margin: 5px;
     font-size: 16px;
     background-color: #3498db;
     color: white;
@@ -33,6 +38,18 @@ h2 {
 
 button:hover {
     background-color: #2980b9;
+}
+
+.free-credit-link {
+    display: inline-block;
+    margin: 10px;
+    color: #f39c12;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.free-credit-link:hover {
+    text-decoration: underline;
 }
 
 .cards {
@@ -50,14 +67,11 @@ button:hover {
     font-size: 18px;
 }
 
-.game-record {
-    margin-top: 20px;
-}
-
 .record-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 10px;
 }
 
 .record {
