@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
         deck = createDeck();
         playerHand = [dealCard(), dealCard()];
         dealerHand = [dealCard(), dealCard()];
-        displayCards(playerHand, 'playerCards');
-        displayCards(dealerHand, 'dealerCards');
+        displayCards(playerHand, 'playerCards', false);  // False for player's hand face up
+        displayCards(dealerHand, 'dealerCards', true);  // True for dealer's hand face down initially
         updateStats();
     }
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let deck = [];
         for (let suit of suits) {
             for (let value of values) {
-                deck.push(`${value}_of_${suit}`);
+                deck.push({value, suit, image: `path_to_${value}_of_${suit}.png`});  // Ensure the image path matches your files
             }
         }
         return deck;
@@ -39,13 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return null;
     }
 
-    function displayCards(cards, elementId) {
+    function displayCards(cards, elementId, faceDown) {
         const container = document.getElementById(elementId);
         container.innerHTML = '';
         cards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            cardElement.style.backgroundImage = `url('${card}.png')`;
+            let imagePath = faceDown ? 'path_to_card_back.png' : card.image; // Toggle between face up and face down
+            cardElement.style.backgroundImage = `url('${imagePath}')`;
             container.appendChild(cardElement);
         });
     }
