@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let deck = [];
         for (let suit of suits) {
             for (let value of values) {
-                deck.push({value, suit, image: `path_to_${value}_of_${suit}.png`});  // Ensure the image path matches your files
+                // Update the image path to directly use the file names
+                deck.push({value, suit, image: `${value}_of_${suit}.png`});  
             }
         }
         return deck;
@@ -45,7 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
         cards.forEach(card => {
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
-            let imagePath = faceDown ? 'path_to_card_back.png' : card.image; // Toggle between face up and face down
+            // Ensure we reference the correct image file names
+            let imagePath = faceDown ? 'card_back.png' : card.image; // Toggle between face up and face down
             cardElement.style.backgroundImage = `url('${imagePath}')`;
             container.appendChild(cardElement);
         });
