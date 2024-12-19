@@ -22,6 +22,10 @@ function initializeDeck() {
 
 // 抽牌
 function drawCard() {
+    if (deck.length === 0) {
+        console.error("No more cards in the deck!");
+        return { value: '?', suit: '?' }; // 返回占位卡
+    }
     const randomIndex = Math.floor(Math.random() * deck.length);
     return deck.splice(randomIndex, 1)[0];
 }
@@ -31,7 +35,7 @@ function calculateScore(cards) {
     let score = 0;
     let aceCount = 0;
     cards.forEach(card => {
-        if (!card) return;
+        if (!card) return; // 跳过无效卡牌
         if (['J', 'Q', 'K'].includes(card.value)) score += 10;
         else if (card.value === 'A') {
             score += 11;
@@ -60,49 +64,52 @@ function deal() {
     updateUI();
 }
 
+// 更新界面
 function updateUI() {
-    document.getElementById('player-cards').innerHTML = playerCards.map(c => `<div class="card">${c.value}${c.suit}</div>`).join('');
-    document.getElementById('dealer-cards').innerHTML = dealerCards.map(c => `<div class="card">${c.value}${c.suit}</div>`).join('');
+    document.getElementById('player-cards').innerHTML = playerCards
+        .filter(card => card && card.value && card.suit) // 过滤掉无效卡牌
+        .map(c => `<div class="card">${c.value}${c.suit}</div>`)
+        .join('');
+
+    document.getElementById('dealer-cards').innerHTML = dealerCards
+        .filter(card => card && card.value && card.suit) // 过滤掉无效卡牌
+        .map(c => `<div class="card">${c.value}${c.suit}</div>`)
+        .join('');
+
     document.getElementById('player-score').textContent = `Score: ${playerScore}`;
     document.getElementById('credit').textContent = credit;
     document.getElementById('point').textContent = points;
 }
 
-// 选择奖励
-function chooseReward() {
-    const choice = prompt("Choose a reward:\n1. 200 Points: +200 Balance\n2. 1000 Points: Welcome Bonus %\n3. 3000 Points: Free 8.88");
-    let message = "";
-    if (choice === "1") {
-        points += 200;
-        message = "1. 200 Points: +200 Balance";
-    } else if (choice === "2") {
-        message = "2. 1000 Points: Welcome Bonus %";
-    } else if (choice === "3") {
-        message = "3. 3000 Points: Free 8.88";
-    } else {
-        message = "Invalid choice!";
-    }
-    alert(`You chose: ${message}`);
-}
-
 // Hit 功能
 document.getElementById('hit').addEventListener('click', () => {
-    playerCards.push(drawCard());
-    playerScore = calculateScore(playerCards);
-    updateUI();
+    const newCard = drawCard();
+    if (newCard) {
+        playerCards.push(newCard);
+        playerScore = calculateScore(playerCards);
+        updateUI();
+    } else {
+        alert("No more cards left!");
+    }
 });
 
 // Stand 功能
 document.getElementById('stand').addEventListener('click', () => {
-    dealerCards[1] = drawCard();
+    dealerCards[1] = drawCard(); // 揭开第二张牌
     dealerScore = calculateScore(dealerCards);
     updateUI();
+
+    // 显示最终分数并判断胜负
     document.getElementById('dealer-score').textContent = `Score: ${dealerScore}`;
     if (playerScore > dealerScore || dealerScore > 21) {
         alert("Player Wins!");
         credit += bet;
+    } else if (playerScore === dealerScore) {
+        alert("It's a Tie!");
     } else {
         alert("Dealer Wins!");
         credit -= bet;
     }
+
+    document.getElementById('credit').textContent = credit;
 });
