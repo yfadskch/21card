@@ -79,15 +79,23 @@ function updateUI() {
     document.getElementById('point').textContent = points;
 }
 
+// Hit 按钮的行为调整
 document.getElementById('hit').addEventListener('click', () => {
     playerCards.push(drawCard());
     playerScore = calculateScore(playerCards);
     updateUI();
-    if (playerScore > 21) endGame("Dealer Wins", "red");
+
+    // 玩家爆牌情况
+    if (playerScore > 21) {
+        dealerCards[1] = drawCard(); // 显示 Dealer 的隐藏牌
+        dealerScore = calculateScore(dealerCards);
+        endGame(`Dealer Wins! Dealer's cards are ${displayCards(dealerCards)} (Score: ${dealerScore})`, "red");
+    }
 });
 
+// Stand 按钮行为保持不变
 document.getElementById('stand').addEventListener('click', () => {
-    dealerCards[1] = drawCard();
+    dealerCards[1] = drawCard(); // 揭示 Dealer 第二张牌
     dealerScore = calculateScore(dealerCards);
 
     while (dealerScore < 17) {
