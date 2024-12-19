@@ -7,6 +7,7 @@ let dealerScore = 0;
 let credit = 500;
 let bet = 0;
 let points = 0;
+let gameRecords = [];
 
 // 初始化牌堆
 function initializeDeck() {
@@ -128,10 +129,16 @@ function endGame(message, color) {
 
 // 增加游戏记录
 function addGameRecord(color) {
+    if (gameRecords.length === 10) gameRecords.shift(); // 保留最近10条记录
+    gameRecords.push(color);
+
     const recordContainer = document.getElementById("record-container");
-    const record = document.createElement("div");
-    record.className = `record ${color}`;
-    recordContainer.appendChild(record);
+    recordContainer.innerHTML = ""; // 清空记录
+    gameRecords.forEach(recordColor => {
+        const record = document.createElement("div");
+        record.className = `record ${recordColor}`;
+        recordContainer.appendChild(record);
+    });
 }
 
 // Reward 功能
