@@ -123,6 +123,13 @@ document.getElementById('stand').addEventListener('click', () => {
 function endGame(message, color) {
     alert(message);
 
+    // 显示 Dealer 的完整手牌和得分
+    dealerCards[1] = drawCard();
+    dealerScore = calculateScore(dealerCards);
+
+    // 更新 UI 显示 Dealer 全部手牌
+    updateUI();
+
     // 积分计算
     points += Math.floor(bet / 2);
 
@@ -138,8 +145,6 @@ function endGame(message, color) {
 
     // 更新界面
     updateUI();
-
-    // 重置游戏状态
     resetGame();
 }
 
