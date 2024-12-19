@@ -122,8 +122,24 @@ document.getElementById('stand').addEventListener('click', () => {
 // 游戏结束
 function endGame(message, color) {
     alert(message);
+
+    // 积分计算
     points += Math.floor(bet / 2);
+
+    // Credit 结算逻辑
+    if (color === "blue") {
+        credit += bet; // 玩家胜利，增加 Credit
+    } else if (color === "red") {
+        credit -= bet; // 庄家胜利，减少 Credit
+    }
+
+    // 添加游戏记录
     addGameRecord(color);
+
+    // 更新界面
+    updateUI();
+
+    // 重置游戏状态
     resetGame();
 }
 
