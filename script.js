@@ -9,7 +9,6 @@ let bet = 0;
 let points = 0;
 let gameRecords = [];
 
-// 初始化牌堆
 function initializeDeck() {
     const suits = ['♥', '♦', '♠', '♣'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -21,7 +20,6 @@ function initializeDeck() {
     }
 }
 
-// 重置游戏状态
 function resetGame() {
     playerCards = [];
     dealerCards = [];
@@ -31,22 +29,16 @@ function resetGame() {
     startGame();
 }
 
-// 抽牌
 function drawCard() {
-    if (deck.length === 0) {
-        console.log("The deck is empty! Shuffling a new deck...");
-        initializeDeck(); // 自动重新生成牌堆
-    }
+    if (deck.length === 0) initializeDeck();
     const randomIndex = Math.floor(Math.random() * deck.length);
     return deck.splice(randomIndex, 1)[0];
 }
 
-// 计算得分
 function calculateScore(cards) {
     let score = 0;
     let aceCount = 0;
     cards.forEach(card => {
-        if (!card) return; // 跳过无效卡牌
         if (['J', 'Q', 'K'].includes(card.value)) score += 10;
         else if (card.value === 'A') {
             score += 11;
@@ -60,13 +52,11 @@ function calculateScore(cards) {
     return score;
 }
 
-// 选择筹码
 function placeBet(amount) {
     bet = amount;
     document.getElementById('bet').textContent = bet;
 }
 
-// 自动开始游戏
 function startGame() {
     initializeDeck();
     playerCards = [drawCard(), drawCard()];
@@ -75,7 +65,6 @@ function startGame() {
     updateUI();
 }
 
-// 更新界面
 function updateUI() {
     document.getElementById('player-cards').innerHTML = playerCards
         .map(c => `<div class="card">${c.value}${c.suit}</div>`)
@@ -90,19 +79,15 @@ function updateUI() {
     document.getElementById('point').textContent = points;
 }
 
-// Hit 功能
 document.getElementById('hit').addEventListener('click', () => {
     playerCards.push(drawCard());
     playerScore = calculateScore(playerCards);
     updateUI();
-    if (playerScore > 21) {
-        endGame("Dealer Wins", "red");
-    }
+    if (playerScore > 21) endGame("Dealer Wins", "red");
 });
 
-// Stand 功能
 document.getElementById('stand').addEventListener('click', () => {
-    dealerCards[1] = drawCard(); // 揭开第二张牌
+    dealerCards[1] = drawCard();
     dealerScore = calculateScore(dealerCards);
 
     while (dealerScore < 17) {
@@ -111,58 +96,37 @@ document.getElementById('stand').addEventListener('click', () => {
     }
 
     if (dealerScore > 21 || playerScore > dealerScore) {
-        endGame("Player Wins", "blue");
+        endGame(`Player Wins! Dealer's cards are ${displayCards(dealerCards)} (Score: ${dealerScore})`, "blue");
     } else if (playerScore === dealerScore) {
-        endGame("It's a Tie!", "green");
+        endGame(`It's a Tie! Dealer's cards are ${displayCards(dealerCards)} (Score: ${dealerScore})`, "green");
     } else {
-        endGame("Dealer Wins", "red");
+        endGame(`Dealer Wins! Dealer's cards are ${displayCards(dealerCards)} (Score: ${dealerScore})`, "red");
     }
 });
 
-// 游戏结束
 function endGame(message, color) {
     alert(message);
-
-    // 显示 Dealer 的完整手牌和得分
-    dealerCards[1] = drawCard();
-    dealerScore = calculateScore(dealerCards);
-
-    // 更新 UI 显示 Dealer 全部手牌
-    updateUI();
-
-    // 积分计算
     points += Math.floor(bet / 2);
 
-    // Credit 结算逻辑
-    if (color === "blue") {
-        credit += bet; // 玩家胜利，增加 Credit
-    } else if (color === "red") {
-        credit -= bet; // 庄家胜利，减少 Credit
-    }
+    if (color === "blue") credit += bet;
+    else if (color === "red") credit -= bet;
 
-    // 添加游戏记录
     addGameRecord(color);
-
-    // 更新界面
     updateUI();
     resetGame();
 }
 
-// 增加游戏记录
 function addGameRecord(color) {
-    if (gameRecords.length === 10) gameRecords.shift(); // 保留最近10条记录
+    if (gameRecords.length === 10) gameRecords.shift();
     gameRecords.push(color);
-
     const recordContainer = document.getElementById("record-container");
-    recordContainer.innerHTML = ""; // 清空记录
-    gameRecords.forEach(recordColor => {
-        const record = document.createElement("div");
-        record.className = `record ${recordColor}`;
-        recordContainer.appendChild(record);
-    });
+    recordContainer.innerHTML = gameRecords.map(c => `<div class="record ${c}"></div>`).join('');
 }
 
-// Reward 功能
+function displayCards(cards) {
+    return cards.map(c => `${c.value}${c.suit}`).join(" + ");
+}
+
 function chooseReward() {
     const choice = prompt("Choose a reward:\n1. 200 Points: +200 Balance\n2. 1000 Points: Welcome Bonus %\n3. 3000 Points: Free 8.88");
     if (choice === "1" && points >= 200) {
@@ -181,5 +145,4 @@ function chooseReward() {
     document.getElementById('point').textContent = points;
 }
 
-// 页面加载时启动游戏
 window.onload = startGame;
