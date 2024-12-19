@@ -18,12 +18,16 @@ function initializeDeck() {
             deck.push({ suit, value });
         }
     }
+}
 
-    // 清空玩家和庄家的牌
+// 重置游戏状态
+function resetGame() {
     playerCards = [];
     dealerCards = [];
     playerScore = 0;
     dealerScore = 0;
+    updateUI();
+    startGame();
 }
 
 // 抽牌
@@ -61,7 +65,7 @@ function placeBet(amount) {
     document.getElementById('bet').textContent = bet;
 }
 
-// 自动开始游戏（页面加载时触发）
+// 自动开始游戏
 function startGame() {
     initializeDeck();
     playerCards = [drawCard(), drawCard()];
@@ -73,12 +77,10 @@ function startGame() {
 // 更新界面
 function updateUI() {
     document.getElementById('player-cards').innerHTML = playerCards
-        .filter(card => card && card.value && card.suit) // 过滤掉无效卡牌
         .map(c => `<div class="card">${c.value}${c.suit}</div>`)
         .join('');
 
     document.getElementById('dealer-cards').innerHTML = dealerCards
-        .filter(card => card && card.value && card.suit) // 过滤掉无效卡牌
         .map(c => `<div class="card">${c.value}${c.suit}</div>`)
         .join('');
 
@@ -89,20 +91,29 @@ function updateUI() {
 
 // Hit 功能
 document.getElementById('hit').addEventListener('click', () => {
-    const newCard = drawCard();
-    playerCards.push(newCard);
+    playerCards.push(drawCard());
     playerScore = calculateScore(playerCards);
     updateUI();
+    if (playerScore > 21) {
+        alert("Player Busts! Dealer Wins!");
+        credit -= bet;
+        resetGame();
+    }
 });
 
 // Stand 功能
 document.getElementById('stand').addEventListener('click', () => {
     dealerCards[1] = drawCard(); // 揭开第二张牌
     dealerScore = calculateScore(dealerCards);
+
+    while (dealerScore < 17) {
+        dealerCards.push(drawCard());
+        dealerScore = calculateScore(dealerCards);
+    }
+
     updateUI();
 
-    document.getElementById('dealer-score').textContent = `Score: ${dealerScore}`;
-    if (playerScore > dealerScore || dealerScore > 21) {
+    if (dealerScore > 21 || playerScore > dealerScore) {
         alert("Player Wins!");
         credit += bet;
     } else if (playerScore === dealerScore) {
@@ -111,26 +122,17 @@ document.getElementById('stand').addEventListener('click', () => {
         alert("Dealer Wins!");
         credit -= bet;
     }
-
-    document.getElementById('credit').textContent = credit;
+    resetGame();
 });
 
 // Reward 功能
 function chooseReward() {
     const choice = prompt("Choose a reward:\n1. 200 Points: +200 Balance\n2. 1000 Points: Welcome Bonus %\n3. 3000 Points: Free 8.88");
-    let message = "";
-    if (choice === "1") {
-        points += 200;
-        message = "1. 200 Points: +200 Balance";
-    } else if (choice === "2") {
-        message = "2. 1000 Points: Welcome Bonus %";
-    } else if (choice === "3") {
-        message = "3. 3000 Points: Free 8.88";
-    } else {
-        message = "Invalid choice!";
-    }
-    alert(`You chose: ${message}`);
+    if (choice === "1") points += 200;
+    else if (choice === "2") alert("Reward: Welcome Bonus %");
+    else if (choice === "3") alert("Reward: Free 8.88");
+    document.getElementById('point').textContent = points;
 }
 
-// 页面加载时自动开始游戏
+// 页面加载时启动游戏
 window.onload = startGame;
