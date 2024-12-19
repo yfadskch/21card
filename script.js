@@ -18,13 +18,19 @@ function initializeDeck() {
             deck.push({ suit, value });
         }
     }
+
+    // 清空玩家和庄家的牌
+    playerCards = [];
+    dealerCards = [];
+    playerScore = 0;
+    dealerScore = 0;
 }
 
 // 抽牌
 function drawCard() {
     if (deck.length === 0) {
-        console.error("No more cards in the deck!");
-        return { value: '?', suit: '?' }; // 返回占位卡
+        alert("The deck is empty! Shuffling a new deck...");
+        initializeDeck(); // 重新生成牌堆
     }
     const randomIndex = Math.floor(Math.random() * deck.length);
     return deck.splice(randomIndex, 1)[0];
@@ -57,7 +63,11 @@ function placeBet(amount) {
 
 // 开局
 function deal() {
-    initializeDeck();
+    if (deck.length < 4) {
+        alert("The deck is too low! Shuffling a new deck...");
+        initializeDeck(); // 重新生成牌堆
+    }
+
     playerCards = [drawCard(), drawCard()];
     dealerCards = [drawCard(), { value: '?', suit: '?' }];
     playerScore = calculateScore(playerCards);
@@ -84,13 +94,9 @@ function updateUI() {
 // Hit 功能
 document.getElementById('hit').addEventListener('click', () => {
     const newCard = drawCard();
-    if (newCard) {
-        playerCards.push(newCard);
-        playerScore = calculateScore(playerCards);
-        updateUI();
-    } else {
-        alert("No more cards left!");
-    }
+    playerCards.push(newCard);
+    playerScore = calculateScore(playerCards);
+    updateUI();
 });
 
 // Stand 功能
@@ -99,7 +105,6 @@ document.getElementById('stand').addEventListener('click', () => {
     dealerScore = calculateScore(dealerCards);
     updateUI();
 
-    // 显示最终分数并判断胜负
     document.getElementById('dealer-score').textContent = `Score: ${dealerScore}`;
     if (playerScore > dealerScore || dealerScore > 21) {
         alert("Player Wins!");
@@ -113,3 +118,20 @@ document.getElementById('stand').addEventListener('click', () => {
 
     document.getElementById('credit').textContent = credit;
 });
+
+// Reward 功能
+function chooseReward() {
+    const choice = prompt("Choose a reward:\n1. 200 Points: +200 Balance\n2. 1000 Points: Welcome Bonus %\n3. 3000 Points: Free 8.88");
+    let message = "";
+    if (choice === "1") {
+        points += 200;
+        message = "1. 200 Points: +200 Balance";
+    } else if (choice === "2") {
+        message = "2. 1000 Points: Welcome Bonus %";
+    } else if (choice === "3") {
+        message = "3. 3000 Points: Free 8.88";
+    } else {
+        message = "Invalid choice!";
+    }
+    alert(`You chose: ${message}`);
+}
