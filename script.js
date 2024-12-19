@@ -95,9 +95,7 @@ document.getElementById('hit').addEventListener('click', () => {
     playerScore = calculateScore(playerCards);
     updateUI();
     if (playerScore > 21) {
-        alert("Player Busts! Dealer Wins!");
-        credit -= bet;
-        resetGame();
+        endGame("Dealer Wins", "red");
     }
 });
 
@@ -111,26 +109,47 @@ document.getElementById('stand').addEventListener('click', () => {
         dealerScore = calculateScore(dealerCards);
     }
 
-    updateUI();
-
     if (dealerScore > 21 || playerScore > dealerScore) {
-        alert("Player Wins!");
-        credit += bet;
+        endGame("Player Wins", "blue");
     } else if (playerScore === dealerScore) {
-        alert("It's a Tie!");
+        endGame("It's a Tie!", "green");
     } else {
-        alert("Dealer Wins!");
-        credit -= bet;
+        endGame("Dealer Wins", "red");
     }
-    resetGame();
 });
+
+// 游戏结束
+function endGame(message, color) {
+    alert(message);
+    points += Math.floor(bet / 2);
+    addGameRecord(color);
+    resetGame();
+}
+
+// 增加游戏记录
+function addGameRecord(color) {
+    const recordContainer = document.getElementById("record-container");
+    const record = document.createElement("div");
+    record.className = `record ${color}`;
+    recordContainer.appendChild(record);
+}
 
 // Reward 功能
 function chooseReward() {
     const choice = prompt("Choose a reward:\n1. 200 Points: +200 Balance\n2. 1000 Points: Welcome Bonus %\n3. 3000 Points: Free 8.88");
-    if (choice === "1") points += 200;
-    else if (choice === "2") alert("Reward: Welcome Bonus %");
-    else if (choice === "3") alert("Reward: Free 8.88");
+    if (choice === "1" && points >= 200) {
+        points -= 200;
+        credit += 200;
+        alert("Reward: +200 Balance");
+    } else if (choice === "2" && points >= 1000) {
+        points -= 1000;
+        alert("Reward: Welcome Bonus %");
+    } else if (choice === "3" && points >= 3000) {
+        points -= 3000;
+        alert("Reward: Free 8.88");
+    } else {
+        alert("Not enough points!");
+    }
     document.getElementById('point').textContent = points;
 }
 
