@@ -29,8 +29,8 @@ function initializeDeck() {
 // 抽牌
 function drawCard() {
     if (deck.length === 0) {
-        alert("The deck is empty! Shuffling a new deck...");
-        initializeDeck(); // 重新生成牌堆
+        console.log("The deck is empty! Shuffling a new deck...");
+        initializeDeck(); // 自动重新生成牌堆
     }
     const randomIndex = Math.floor(Math.random() * deck.length);
     return deck.splice(randomIndex, 1)[0];
@@ -61,13 +61,9 @@ function placeBet(amount) {
     document.getElementById('bet').textContent = bet;
 }
 
-// 开局
-function deal() {
-    if (deck.length < 4) {
-        alert("The deck is too low! Shuffling a new deck...");
-        initializeDeck(); // 重新生成牌堆
-    }
-
+// 自动开始游戏（页面加载时触发）
+function startGame() {
+    initializeDeck();
     playerCards = [drawCard(), drawCard()];
     dealerCards = [drawCard(), { value: '?', suit: '?' }];
     playerScore = calculateScore(playerCards);
@@ -135,3 +131,6 @@ function chooseReward() {
     }
     alert(`You chose: ${message}`);
 }
+
+// 页面加载时自动开始游戏
+window.onload = startGame;
